@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dominion Energy — Enterprise AI Value Case</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--navy:#1B365D;--blue:#0072CE;--blue-light:#E8F1FB;--teal:#00857C;
+--slate:#4A5568;--gray-100:#F7F8FA;--gray-200:#EDF0F4;--gray-300:#D1D5DB;
+--gray-600:#6B7280;--white:#FFFFFF;--green:#059669;--amber:#D97706;
+--font:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,sans-serif;
+--mono:"SF Mono","Fira Code",monospace;
+--shadow:0 1px 3px rgba(27,54,93,.08);
+--shadow-md:0 4px 12px rgba(27,54,93,.1);
+--radius:10px;
+}
+html{font-size:15px;scroll-behavior:smooth}
+body{font-family:var(--font);color:var(--navy);background:var(--gray-100);line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* Layout */
+.container{max-width:1080px;margin:0 auto;padding:0 24px}
+section{padding:64px 0}
+section+section{border-top:1px solid var(--gray-200)}
+
+/* Hero */
+.hero{background:linear-gradient(135deg,var(--navy) 0%,#2A4A7F 100%);color:var(--white);padding:80px 0 72px;text-align:center}
+.hero-eyebrow{font-size:.8rem;letter-spacing:2.5px;text-transform:uppercase;opacity:.7;margin-bottom:12px}
+.hero h1{font-size:2.4rem;font-weight:700;letter-spacing:-.5px;margin-bottom:8px}
+.hero-sub{font-size:1.05rem;opacity:.75;max-width:640px;margin:0 auto 40px}
+.hero-number{font-size:3.6rem;font-weight:700;letter-spacing:-1px;margin-bottom:4px}
+.hero-label{font-size:.95rem;opacity:.65}
+
+/* Section titles */
+.section-title{font-size:1.5rem;font-weight:700;letter-spacing:-.3px;margin-bottom:8px}
+.section-sub{color:var(--slate);font-size:.95rem;margin-bottom:32px;max-width:680px}
+
+/* Cards grid */
+.cards{display:grid;gap:16px}
+.cards-3{grid-template-columns:repeat(3,1fr)}
+.cards-2{grid-template-columns:repeat(2,1fr)}
+.card{background:var(--white);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);border:1px solid var(--gray-200)}
+.card-label{font-size:.75rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray-600);margin-bottom:8px}
+.card-value{font-size:2rem;font-weight:700;letter-spacing:-.5px;color:var(--navy)}
+.card-note{font-size:.82rem;color:var(--slate);margin-top:6px}
+.card-value.teal{color:var(--teal)}
+.card-value.blue{color:var(--blue)}
+
+/* Context cards */
+.context-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.ctx-card{background:var(--white);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);border:1px solid var(--gray-200);border-left:3px solid var(--blue)}
+.ctx-card h4{font-size:.95rem;font-weight:700;margin-bottom:6px}
+.ctx-card p{font-size:.82rem;color:var(--slate);line-height:1.5}
+
+/* Reference table */
+table.ref{width:100%;border-collapse:collapse;font-size:.85rem}
+table.ref th{text-align:left;font-weight:600;padding:10px 14px;border-bottom:2px solid var(--navy);color:var(--navy);font-size:.75rem;letter-spacing:1px;text-transform:uppercase}
+table.ref td{padding:10px 14px;border-bottom:1px solid var(--gray-200);color:var(--slate)}
+table.ref tr:last-child td{border-bottom:none}
+
+/* Forrester callout */
+.forrester{background:var(--blue-light);border-radius:var(--radius);padding:24px 28px;margin-top:28px;border-left:3px solid var(--blue)}
+.forrester strong{color:var(--navy)}
+.forrester p{font-size:.88rem;color:var(--slate);line-height:1.6}
+
+/* Tabs */
+.tab-container{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow-md);border:1px solid var(--gray-200);overflow:hidden}
+.tab-nav{display:flex;border-bottom:1px solid var(--gray-200);background:var(--gray-100)}
+.tab-btn{flex:1;padding:14px 16px;font-size:.82rem;font-weight:600;color:var(--slate);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}
+.tab-btn:hover{color:var(--navy);background:var(--white)}
+.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue);background:var(--white)}
+.tab-panel{display:none;padding:28px}
+.tab-panel.active{display:block}
+
+/* Input groups */
+.input-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.input-group{display:flex;flex-direction:column;gap:4px}
+.input-group label{font-size:.75rem;font-weight:600;color:var(--slate);letter-spacing:.5px;text-transform:uppercase}
+.input-group input{font-family:var(--mono);font-size:.95rem;padding:10px 12px;border:1px solid var(--gray-300);border-radius:8px;color:var(--navy);background:var(--white);transition:border-color .2s}
+.input-group input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,114,206,.12)}
+
+/* Layer 1 table */
+table.l1{width:100%;border-collapse:collapse;font-size:.85rem}
+table.l1 th{text-align:left;font-weight:600;padding:8px 10px;border-bottom:2px solid var(--gray-300);color:var(--slate);font-size:.72rem;letter-spacing:1px;text-transform:uppercase}
+table.l1 td{padding:6px 10px;border-bottom:1px solid var(--gray-200)}
+table.l1 input{font-family:var(--mono);font-size:.85rem;padding:6px 8px;border:1px solid var(--gray-300);border-radius:6px;width:100%;color:var(--navy);text-align:right}
+table.l1 input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 2px rgba(0,114,206,.1)}
+table.l1 .calc{font-family:var(--mono);color:var(--teal);font-weight:600;text-align:right}
+table.l1 tfoot td{font-weight:700;border-top:2px solid var(--navy);color:var(--navy)}
+
+/* Layer 2 */
+.l2-block{background:var(--gray-100);border-radius:var(--radius);padding:20px;margin-bottom:14px;border:1px solid var(--gray-200)}
+.l2-block h4{font-size:.9rem;font-weight:700;color:var(--navy);margin-bottom:2px}
+.l2-block .l2-desc{font-size:.78rem;color:var(--slate);margin-bottom:12px;line-height:1.5}
+.l2-inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.l2-inputs .input-group input{font-size:.85rem;padding:8px 10px}
+.l2-result{margin-top:10px;font-family:var(--mono);font-size:1.05rem;font-weight:700;color:var(--teal)}
+
+/* Financial summary cards */
+.fin-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px}
+
+/* Benchmark bar */
+.bench-wrap{margin-top:20px;background:var(--gray-100);border-radius:var(--radius);padding:18px 22px}
+.bench-label{font-size:.75rem;font-weight:600;color:var(--slate);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.bench-track{height:8px;background:var(--gray-200);border-radius:4px;position:relative;margin-bottom:8px}
+.bench-fill{height:100%;border-radius:4px;background:var(--teal);transition:width .4s}
+.bench-markers{display:flex;justify-content:space-between;font-size:.72rem;color:var(--gray-600)}
+
+/* ROI strip */
+.roi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:24px}
+.roi-card{text-align:center;background:var(--gray-100);border-radius:var(--radius);padding:20px 14px}
+.roi-val{font-size:1.6rem;font-weight:700;color:var(--navy)}
+.roi-label{font-size:.72rem;color:var(--slate);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+
+/* Next steps */
+.steps{counter-reset:step}
+.step{display:flex;gap:16px;padding:18px 0;border-bottom:1px solid var(--gray-200)}
+.step:last-child{border-bottom:none}
+.step::before{counter-increment:step;content:counter(step);display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--blue);color:var(--white);font-weight:700;font-size:.85rem;flex-shrink:0}
+.step-body h4{font-size:.9rem;font-weight:700;margin-bottom:2px}
+.step-body p{font-size:.82rem;color:var(--slate)}
+
+/* Responsive */
+@media(max-width:768px){
+  .cards-3,.context-grid,.fin-cards,.roi-strip{grid-template-columns:1fr}
+  .cards-2,.input-grid{grid-template-columns:1fr}
+  .hero-number{font-size:2.4rem}
+  .hero h1{font-size:1.6rem}
+  .tab-nav{flex-wrap:wrap}
+  .tab-btn{flex:none;width:50%}
+}
+@media print{
+  .hero{background:var(--navy) !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  section{padding:32px 0}
+}
+</style>
+</head>
+<body>
+<!-- HERO -->
+<section class="hero">
+<div class="container">
+<div class="hero-eyebrow">Dominion Energy × Glean</div>
+<h1>Enterprise AI Transformation</h1>
+<p class="hero-sub">Quantifying the value of unified enterprise knowledge across 15,200 employees</p>
+<div id="heroNumber" class="hero-number">$178M</div>
+<div class="hero-label">3-Year Pre-Tax Value (Mid-Case)</div>
+</div>
+</section>
+
+<!-- EXEC SUMMARY -->
+<section>
+<div class="container">
+<div class="section-title">Executive Summary</div>
+<p class="section-sub">The platform delivers value through two distinct channels. Combined, even the most conservative scenario pays back within 12 months.</p>
+<div class="cards cards-3">
+<div class="card">
+<div class="card-label">Workforce Productivity</div>
+<div class="card-value" id="sumL1">$34M</div>
+<div class="card-note">Annual EBITDA contribution through O&M savings</div>
+</div>
+<div class="card">
+<div class="card-label">Strategic Initiative Acceleration</div>
+<div class="card-value teal" id="sumL2">$45M</div>
+<div class="card-note">Capital execution, supply chain, regulatory, CX, safety, DC interconnection</div>
+</div>
+<div class="card">
+<div class="card-label">Combined Annual Value</div>
+<div class="card-value blue" id="sumTotal">$79M</div>
+<div class="card-note">Pre-tax economic value at steady state</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- STRATEGIC CONTEXT -->
+<section>
+<div class="container">
+<div class="section-title">Strategic Context</div>
+<p class="section-sub">Priorities drawn from Dominion's public investor communications that informed this value model.</p>
+<div class="context-grid">
+<div class="ctx-card"><h4>$64.7B Capital Plan</h4><p>30% larger than prior commitment. Information gaps compound across thousands of concurrent projects.</p></div>
+<div class="ctx-card"><h4>48.5 GW Data Center Pipeline</h4><p>More contracted DC capacity than any US utility. Speed to interconnection is a competitive advantage.</p></div>
+<div class="ctx-card"><h4>O&M Discipline</h4><p>Ranked 2nd among peers. Customer rates 4% below US average. Must do more with the same workforce.</p></div>
+<div class="ctx-card"><h4>Safety Leadership</h4><p>Record 0.26 OSHA TRIR vs. 1.90 industry average. Real-time procedure access protects this record.</p></div>
+<div class="ctx-card"><h4>5-7% EPS Growth</h4><p>Every dollar of O&M savings and month of accelerated capital delivery supports the $3.57+ EPS midpoint.</p></div>
+<div class="ctx-card"><h4>Workforce Turnover</h4><p>25-30% retirement by 2030. Institutional knowledge must be captured before it walks out the door.</p></div>
+</div>
+</div>
+</section>
+
+<!-- VALIDATED AT SCALE -->
+<section>
+<div class="container">
+<div class="section-title">Validated at Scale</div>
+<p class="section-sub">References available under NDA.</p>
+<table class="ref">
+<thead><tr><th>Organization</th><th>Scale</th><th>Outcome</th></tr></thead>
+<tbody>
+<tr><td>Citi</td><td>140,000+ employees</td><td>Internal build-vs-buy: $134M/yr to replicate</td></tr>
+<tr><td>NVIDIA</td><td>30,000+ employees</td><td>Replaced 2-year internal build. 200+ AI agents. CEO highlighted at CES 2025</td></tr>
+<tr><td>DBS Bank</td><td>40,000+ employees, 19 markets</td><td>Enterprise-wide under strict banking security. Up to 10% of work hours freed</td></tr>
+<tr><td>LinkedIn</td><td>20,000+ employees</td><td>Chose over Copilot. 2 IT engineers vs. 50 for Copilot. 20K MAUs in 2 months</td></tr>
+<tr><td>ConocoPhillips</td><td>10,000+ employees</td><td>Replaced legacy Microsoft search. 60K+ monthly queries enterprise-wide</td></tr>
+<tr><td>T-Mobile</td><td>75,000+ employees</td><td>17-sec CRT reduction; 47% efficiency gain; $20M+ annualized savings; J.D. Power #1 (11x)</td></tr>
+</tbody>
+</table>
+<div class="forrester">
+<p><strong>Independently validated:</strong> The 2024 Forrester Total Economic Impact study found 141% ROI, payback under 6 months, 110 hours saved per active user per year, and 93% adoption within two years. Users frequently report 3-4+ hours per week in practice. This Dominion model assumes roughly 1-2 hours per week — deliberately conservative.</p>
+</div>
+</div>
+</section>
+<!-- VALUE SUMMARY (Interactive Calculator) -->
+<section>
+<div class="container">
+<div class="section-title">Value Summary</div>
+<p class="section-sub">Adjust any input to see how the value model responds. All calculations update instantly.</p>
+
+<div class="tab-container">
+<div class="tab-nav">
+<button class="tab-btn active" onclick="switchTab('financial')">Financial Impact</button>
+<button class="tab-btn" onclick="switchTab('assumptions')">Assumptions</button>
+<button class="tab-btn" onclick="switchTab('layer1')">Layer 1: Productivity</button>
+<button class="tab-btn" onclick="switchTab('layer2')">Layer 2: Strategic</button>
+</div>
+
+<!-- TAB: FINANCIAL IMPACT -->
+<div id="tab-financial" class="tab-panel active">
+<div class="fin-cards">
+<div class="card"><div class="card-label">Direct EBITDA Contribution</div><div class="card-value" id="finEbitda">$40M</div><div class="card-note">Layer 1 productivity + CX + safety operations</div></div>
+<div class="card"><div class="card-label">After-Tax Earnings Impact</div><div class="card-value teal" id="finAfterTax">$59M</div><div class="card-note">At <span id="finTaxLabel">25%</span> effective tax rate</div></div>
+<div class="card"><div class="card-label">EPS Contribution</div><div class="card-value blue" id="finEps">$0.07</div><div class="card-note">On <span id="finSharesLabel">855M</span> diluted shares</div></div>
+</div>
+<table class="ref" style="margin-top:16px">
+<thead><tr><th>Value Channel</th><th>What It Captures</th><th style="text-align:right">Annual Value</th></tr></thead>
+<tbody>
+<tr><td>Direct EBITDA</td><td>O&M reduction from Layer 1 + CX + safety</td><td class="calc" id="finRow1" style="text-align:right">$40M</td></tr>
+<tr><td>Capital Efficiency</td><td>Capital execution + supply chain savings</td><td class="calc" id="finRow2" style="text-align:right">$21M</td></tr>
+<tr><td>Earnings Acceleration</td><td>Regulatory protection + DC interconnection speed</td><td class="calc" id="finRow3" style="text-align:right">$18M</td></tr>
+</tbody>
+<tfoot><tr><td colspan="2" style="font-weight:700">Total Economic Value</td><td class="calc" id="finRowTotal" style="text-align:right;font-weight:700">$79M</td></tr></tfoot>
+</table>
+
+<div class="roi-strip">
+<div class="roi-card"><div class="roi-val" id="roiYear1">$40M</div><div class="roi-label">Year 1 Value</div></div>
+<div class="roi-card"><div class="roi-val" id="roi3yr">$178M</div><div class="roi-label">3-Year Cumulative</div></div>
+<div class="roi-card"><div class="roi-val" id="roiMultiple">6.5x</div><div class="roi-label">ROI (at list)</div></div>
+<div class="roi-card"><div class="roi-val" id="roiPayback">&lt; 6 mo</div><div class="roi-label">Payback Period</div></div>
+</div>
+</div>
+
+<!-- TAB: ASSUMPTIONS -->
+<div id="tab-assumptions" class="tab-panel">
+<div class="input-grid">
+<div class="input-group"><label>Annual Capital Spend ($B)</label><input type="text" id="aCapex" value="12.9" oninput="recalc()"></div>
+<div class="input-group"><label>Competitively Bid Procurement ($B)</label><input type="text" id="aProcure" value="5.0" oninput="recalc()"></div>
+<div class="input-group"><label>Rate Case Revenue Requirements ($B)</label><input type="text" id="aRateCase" value="2.0" oninput="recalc()"></div>
+<div class="input-group"><label>Non-Fuel O&M ($B)</label><input type="text" id="aOm" value="4.1" oninput="recalc()"></div>
+<div class="input-group"><label>EBITDA ($B)</label><input type="text" id="aEbitda" value="6.8" oninput="recalc()"></div>
+<div class="input-group"><label>External Counsel Spend ($M/yr)</label><input type="text" id="aCounsel" value="20" oninput="recalc()"></div>
+<div class="input-group"><label>Effective Tax Rate (%)</label><input type="text" id="aTax" value="25" oninput="recalc()"></div>
+<div class="input-group"><label>Diluted Shares (M)</label><input type="text" id="aShares" value="855" oninput="recalc()"></div>
+<div class="input-group"><label>FTE Productive Hours/Year</label><input type="text" id="aFteHrs" value="1800" oninput="recalc()"></div>
+<div class="input-group"><label>Total Employees</label><input type="text" id="aTotalEmp" value="15200" oninput="recalc()"></div>
+</div>
+</div>
+
+<!-- TAB: LAYER 1 -->
+<div id="tab-layer1" class="tab-panel">
+<div style="overflow-x:auto">
+<table class="l1">
+<thead><tr><th>Department</th><th style="width:80px">Users</th><th style="width:80px">Min/Day</th><th style="width:70px">Adopt %</th><th style="width:80px">Rate $/hr</th><th style="width:100px;text-align:right">Hours Freed</th><th style="width:100px;text-align:right">Annual Value</th></tr></thead>
+<tbody>
+<tr>
+<td>Enterprise Knowledge Workers</td>
+<td><input id="l1r0u" value="7000" oninput="recalc()"></td>
+<td><input id="l1r0m" value="15" oninput="recalc()"></td>
+<td><input id="l1r0a" value="60" oninput="recalc()"></td>
+<td><input id="l1r0r" value="80" oninput="recalc()"></td>
+<td class="calc" id="l1r0h"></td><td class="calc" id="l1r0v"></td>
+</tr>
+<tr>
+<td>Engineering & Major Projects</td>
+<td><input id="l1r1u" value="2000" oninput="recalc()"></td>
+<td><input id="l1r1m" value="20" oninput="recalc()"></td>
+<td><input id="l1r1a" value="50" oninput="recalc()"></td>
+<td><input id="l1r1r" value="90" oninput="recalc()"></td>
+<td class="calc" id="l1r1h"></td><td class="calc" id="l1r1v"></td>
+</tr>
+<tr>
+<td>Customer Service</td>
+<td><input id="l1r2u" value="1500" oninput="recalc()"></td>
+<td><input id="l1r2m" value="15" oninput="recalc()"></td>
+<td><input id="l1r2a" value="70" oninput="recalc()"></td>
+<td><input id="l1r2r" value="50" oninput="recalc()"></td>
+<td class="calc" id="l1r2h"></td><td class="calc" id="l1r2v"></td>
+</tr>
+<tr>
+<td>Field & Plant Operations</td>
+<td><input id="l1r3u" value="4000" oninput="recalc()"></td>
+<td><input id="l1r3m" value="10" title="Frequent field users save ~10 min/day; 30% adoption reflects the frequent-user share" oninput="recalc()"></td>
+<td><input id="l1r3a" value="30" oninput="recalc()"></td>
+<td><input id="l1r3r" value="60" oninput="recalc()"></td>
+<td class="calc" id="l1r3h"></td><td class="calc" id="l1r3v"></td>
+</tr>
+<tr>
+<td>Supply Chain & Procurement</td>
+<td><input id="l1r4u" value="500" oninput="recalc()"></td>
+<td><input id="l1r4m" value="25" oninput="recalc()"></td>
+<td><input id="l1r4a" value="50" oninput="recalc()"></td>
+<td><input id="l1r4r" value="85" oninput="recalc()"></td>
+<td class="calc" id="l1r4h"></td><td class="calc" id="l1r4v"></td>
+</tr>
+<tr>
+<td>Regulatory, Legal & Compliance</td>
+<td><input id="l1r5u" value="400" oninput="recalc()"></td>
+<td><input id="l1r5m" value="8" title="~30 hrs/yr ÷ 220 days ≈ 8 min/day" oninput="recalc()"></td>
+<td><input id="l1r5a" value="70" oninput="recalc()"></td>
+<td><input id="l1r5r" value="120" oninput="recalc()"></td>
+<td class="calc" id="l1r5h"></td><td class="calc" id="l1r5v"></td>
+</tr>
+<tr>
+<td>IT & HR Support<br><span style="font-size:11px;color:#6b7280;font-weight:normal">Ticket deflection model</span></td>
+<td><input id="l1r6u" value="24000" title="Tickets deflected per year" oninput="recalc()"><span style="font-size:10px;color:#6b7280;display:block;margin-top:2px">tickets/yr</span></td>
+<td><input id="l1r6m" value="15" title="Minutes saved per deflected ticket" oninput="recalc()"><span style="font-size:10px;color:#6b7280;display:block;margin-top:2px">min/ticket</span></td>
+<td><input id="l1r6a" value="100" disabled style="background:#f3f4f6;color:#9ca3af;cursor:not-allowed" title="Not applicable - ticket deflection model"><span style="font-size:10px;color:#9ca3af;display:block;margin-top:2px">N/A</span></td>
+<td><input id="l1r6r" value="60" oninput="recalc()"></td>
+<td class="calc" id="l1r6h"></td><td class="calc" id="l1r6v"></td>
+</tr>
+</tbody>
+<tfoot>
+<tr><td>Total</td><td id="l1TotU"></td><td></td><td></td><td></td><td class="calc" id="l1TotH"></td><td class="calc" id="l1TotV"></td></tr>
+<tr><td>FTE-Equivalents</td><td colspan="5"></td><td class="calc" id="l1Fte"></td></tr>
+</tfoot>
+</table>
+</div>
+
+<div class="bench-wrap">
+<div class="bench-label">Model vs. Forrester TEI Benchmark (hours/week per knowledge worker)</div>
+<div class="bench-track"><div class="bench-fill" id="benchFill" style="width:40%"></div></div>
+<div class="bench-markers">
+<span>0 hrs</span>
+<span id="benchModel">Model: 1.3 hrs/wk</span>
+<span>Forrester: 2.1 hrs/wk</span>
+<span>Users report: 3-4 hrs/wk</span>
+</div>
+</div>
+</div>
+<!-- TAB: LAYER 2 -->
+<div id="tab-layer2" class="tab-panel">
+
+<div class="l2-block">
+<h4>Capital Execution</h4>
+<div class="l2-desc">Engineers spend 20-30% of time searching for prior designs, standards, and lessons learned. Surfacing this knowledge instantly reduces rework and accelerates project delivery across thousands of concurrent capital projects.</div>
+<div class="l2-inputs">
+<div class="input-group"><label>Annual Capital Spend ($B)</label><input type="text" id="l2capSpend" value="12.9" oninput="recalc()"></div>
+<div class="input-group"><label>Efficiency Improvement (%)</label><input type="text" id="l2capPct" value="0.10" oninput="recalc()"></div>
+</div>
+<div class="l2-result">Value: <span id="l2capVal">$12.9M</span></div>
+</div>
+
+<div class="l2-block">
+<h4>Supply Chain & Procurement</h4>
+<div class="l2-desc">Procurement teams spend days locating contract terms, comparing RFP responses, and researching supplier history. AI-powered retrieval accelerates sourcing cycles, strengthens renegotiation leverage, and reduces cost per MW during tariff volatility.</div>
+<div class="l2-inputs">
+<div class="input-group"><label>Competitively Bid Spend ($B)</label><input type="text" id="l2scSpend" value="5.0" oninput="recalc()"></div>
+<div class="input-group"><label>Efficiency Improvement (%)</label><input type="text" id="l2scPct" value="0.16" oninput="recalc()"></div>
+</div>
+<div class="l2-result">Value: <span id="l2scVal">$8.0M</span></div>
+</div>
+
+<div class="l2-block">
+<h4>Regulatory Outcomes</h4>
+<div class="l2-desc">Rate case filings require assembling evidence across thousands of documents. Faster, more comprehensive retrieval reduces disallowance risk on multi-billion-dollar revenue requirements and cuts dependence on outside counsel for research.</div>
+<div class="l2-inputs">
+<div class="input-group"><label>Revenue Requirements ($B)</label><input type="text" id="l2regRev" value="2.0" oninput="recalc()"></div>
+<div class="input-group"><label>Disallowance Reduction (%)</label><input type="text" id="l2regPct" value="0.25" oninput="recalc()"></div>
+<div class="input-group"><label>External Counsel Spend ($M/yr)</label><input type="text" id="l2regCounsel" value="20" oninput="recalc()"></div>
+<div class="input-group"><label>Counsel Spend Reduction (%)</label><input type="text" id="l2regCounselPct" value="10" oninput="recalc()"></div>
+</div>
+<div class="l2-result">Value: <span id="l2regVal">$7.0M</span></div>
+</div>
+
+<div class="l2-block">
+<h4>Customer Experience</h4>
+<div class="l2-desc">Contact center agents waste time searching knowledge bases during live calls. AI-assisted answers surface resolutions instantly, cutting handle time, improving first-contact resolution, and reducing repeat call volume.</div>
+<div class="l2-inputs">
+<div class="input-group"><label>Annual Call Volume (M)</label><input type="text" id="l2cxCalls" value="3.0" oninput="recalc()"></div>
+<div class="input-group"><label>Avg Handle Time (min)</label><input type="text" id="l2cxAht" value="8" oninput="recalc()"></div>
+<div class="input-group"><label>AHT Reduction (sec)</label><input type="text" id="l2cxAhtRed" value="17" oninput="recalc()"></div>
+<div class="input-group"><label>Cost per Call ($)</label><input type="text" id="l2cxCost" value="7.00" oninput="recalc()"></div>
+<div class="input-group"><label>Repeat Call Rate (%)</label><input type="text" id="l2cxRepeat" value="15" oninput="recalc()"></div>
+<div class="input-group"><label>Repeat Reduction (%)</label><input type="text" id="l2cxRepeatRed" value="25" oninput="recalc()"></div>
+<div class="input-group"><label>Routine Call Share (%)</label><input type="text" id="l2cxRoutine" value="35" oninput="recalc()"></div>
+<div class="input-group"><label>Routine Deflection (%)</label><input type="text" id="l2cxDeflect" value="18" oninput="recalc()"></div>
+</div>
+<div class="l2-result">Value: <span id="l2cxVal">$3.0M</span></div>
+</div>
+
+<div class="l2-block">
+<h4>Safety & Reliability</h4>
+<div class="l2-desc">Field crews sometimes reference outdated procedures or lose time searching for the right safety protocol. Real-time mobile access to current SOPs and outage playbooks reduces recordable incidents and improves restoration times.</div>
+<div class="l2-inputs">
+<div class="input-group"><label>Field Workforce</label><input type="text" id="l2safWorkers" value="4000" oninput="recalc()"></div>
+<div class="input-group"><label>Current OSHA TRIR</label><input type="text" id="l2safTrir" value="0.26" oninput="recalc()"></div>
+<div class="input-group"><label>Avg Cost per Incident ($K)</label><input type="text" id="l2safCostInc" value="750" oninput="recalc()"></div>
+<div class="input-group"><label>Incident Reduction (%)</label><input type="text" id="l2safReduce" value="15" oninput="recalc()"></div>
+<div class="input-group"><label>Annual SAIDI Penalty/Cost ($M)</label><input type="text" id="l2safSaidi" value="20" oninput="recalc()"></div>
+<div class="input-group"><label>SAIDI Improvement (%)</label><input type="text" id="l2safSaidiPct" value="8" oninput="recalc()"></div>
+</div>
+<div class="l2-result">Value: <span id="l2safVal">$3.0M</span></div>
+</div>
+
+<div class="l2-block">
+<h4>Data Center Interconnection</h4>
+<div class="l2-desc">Each new data center connection requires engineering studies, permitting research, and precedent retrieval. Faster knowledge access compresses timelines, accelerating rate base growth from the 48.5 GW contracted pipeline.</div>
+<div class="l2-inputs">
+<div class="input-group"><label>New DC Connections/Year</label><input type="text" id="l2dcCount" value="15" oninput="recalc()"></div>
+<div class="input-group"><label>Avg MW per Connection</label><input type="text" id="l2dcMw" value="50" oninput="recalc()"></div>
+<div class="input-group"><label>Timeline Reduction (months)</label><input type="text" id="l2dcMonths" value="1" oninput="recalc()"></div>
+<div class="input-group"><label>Revenue per MW/Month ($K)</label><input type="text" id="l2dcRevMw" value="14.5" oninput="recalc()"></div>
+</div>
+<div class="l2-result">Value: <span id="l2dcVal">$10.9M</span></div>
+</div>
+
+<div style="margin-top:20px;padding:16px 20px;background:var(--gray-100);border-radius:var(--radius);border:1px solid var(--gray-200)">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<span style="font-size:.85rem;font-weight:600;color:var(--slate)">Total Layer 2 Strategic Value</span>
+<span style="font-family:var(--mono);font-size:1.3rem;font-weight:700;color:var(--teal)" id="l2Total">$45M</span>
+</div>
+</div>
+</div>
+
+</div><!-- end tab-container -->
+</div>
+</section>
+<!-- INVESTMENT -->
+<section>
+<div class="container">
+<div class="section-title">Investment</div>
+<p class="section-sub">List pricing at $50/user/month as reference. Glean is committed to working with Dominion on commercial terms that reflect the scale and strategic nature of this partnership.</p>
+<div class="cards cards-2">
+<div class="card">
+<div class="card-label">Annual Platform (at list)</div>
+<div class="card-value" id="invAnnual">$9.1M</div>
+<div class="card-note"><span id="invEmpCount">15,200</span> employees × $50/user/month</div>
+</div>
+<div class="card">
+<div class="card-label">3-Year Platform (at list)</div>
+<div class="card-value" id="inv3yr">$27.4M</div>
+<div class="card-note">+ ~$400K-$500K professional services</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- NEXT STEPS -->
+<section>
+<div class="container">
+<div class="section-title">Recommended Next Steps</div>
+<div class="steps">
+<div class="step"><div class="step-body"><h4>Joint working session to validate baseline metrics</h4><p>DomNet search success rate, contact center AHT, engineering search time, and supply chain cycle time.</p></div></div>
+<div class="step"><div class="step-body"><h4>Finalize DomNet platform commitment</h4><p>Target mid-April for the platform agreement including Phase 1 professional services.</p></div></div>
+<div class="step"><div class="step-body"><h4>Execute DomNet pilot</h4><p>Stand up the platform, connect core sources, and deliver measurable search results for the June showcase.</p></div></div>
+<div class="step"><div class="step-body"><h4>June showcase</h4><p>Present pilot results to Dominion leadership. Pilot outcomes earn the right to scale.</p></div></div>
+<div class="step"><div class="step-body"><h4>Production rollout</h4><p>Scale to full DomNet production, then expand to department agent activation and enterprise conversion.</p></div></div>
+</div>
+</div>
+</section>
+
+<footer style="text-align:center;padding:40px 0;font-size:.75rem;color:var(--gray-600)">
+Prepared for Dominion Energy Executive Leadership · March 2026 · Confidential
+</footer>
+
+<script>
+function n(id){return parseFloat(document.getElementById(id).value.replace(/,/g,''))||0}
+function fmt(v){
+  if(Math.abs(v)>=1e9) return '$'+(v/1e9).toFixed(1)+'B';
+  if(Math.abs(v)>=1e6) return '$'+(v/1e6).toFixed(1)+'M';
+  if(Math.abs(v)>=1e3) return '$'+(v/1e3).toFixed(0)+'K';
+  return '$'+v.toFixed(0);
+}
+function fmtN(v){return v.toLocaleString('en-US',{maximumFractionDigits:0})}
+
+function switchTab(id){
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b=>{
+    if(b.textContent.toLowerCase().includes(id==='financial'?'financial':id==='assumptions'?'assumption':id==='layer1'?'productivity':'strategic'))
+      b.classList.add('active');
+  });
+}
+
+function recalc(){
+  // Layer 1
+  var l1Total=0, l1Hours=0, l1Users=0;
+  for(var i=0;i<7;i++){
+    var u=n('l1r'+i+'u'), m=n('l1r'+i+'m'), a=n('l1r'+i+'a')/100, r=n('l1r'+i+'r');
+    // Row 6 (IT/HR) uses ticket deflection: tickets/yr * min/ticket / 60
+    var hrs=(i===6)? u*m/60 : u*m*a*220/60;
+    var val=hrs*r;
+    l1Hours+=hrs; l1Total+=val; l1Users+=u;
+    document.getElementById('l1r'+i+'h').textContent=fmtN(Math.round(hrs));
+    document.getElementById('l1r'+i+'v').textContent=fmt(val);
+  }
+  document.getElementById('l1TotU').textContent=fmtN(l1Users);
+  document.getElementById('l1TotH').textContent=fmtN(Math.round(l1Hours));
+  document.getElementById('l1TotV').textContent=fmt(l1Total);
+  var fteHrs=n('aFteHrs')||1800;
+  document.getElementById('l1Fte').textContent='~'+Math.round(l1Hours/fteHrs);
+
+  // Benchmark: KW hrs/week (row 0)
+  var kwU=n('l1r0u'),kwM=n('l1r0m'),kwA=n('l1r0a')/100;
+  var modelHrsWk=kwM*kwA*5/60;
+  var pct=Math.min((modelHrsWk/4)*100,100);
+  document.getElementById('benchFill').style.width=pct+'%';
+  document.getElementById('benchModel').textContent='Model: '+modelHrsWk.toFixed(1)+' hrs/wk';
+
+  // Layer 2
+  // Capital
+  var l2cap=n('l2capSpend')*1e9*(n('l2capPct')/100);
+  document.getElementById('l2capVal').textContent=fmt(l2cap);
+
+  // Supply chain
+  var l2sc=n('l2scSpend')*1e9*(n('l2scPct')/100);
+  document.getElementById('l2scVal').textContent=fmt(l2sc);
+
+  // Regulatory
+  var l2regDis=n('l2regRev')*1e9*(n('l2regPct')/100);
+  var l2regCoun=n('l2regCounsel')*1e6*(n('l2regCounselPct')/100);
+  var l2reg=l2regDis+l2regCoun;
+  document.getElementById('l2regVal').textContent=fmt(l2reg);
+
+  // CX
+  var calls=n('l2cxCalls')*1e6;
+  var cpc=n('l2cxCost');
+  var ahtMin=n('l2cxAht');
+  var ahtRedSec=n('l2cxAhtRed');
+  var cxAht=calls*(ahtRedSec/60)*(cpc/ahtMin);
+  var cxRepeat=calls*(n('l2cxRepeat')/100)*(n('l2cxRepeatRed')/100)*cpc;
+  var cxDeflect=calls*(n('l2cxRoutine')/100)*(n('l2cxDeflect')/100)*cpc;
+  var l2cx=cxAht+cxRepeat+cxDeflect;
+  document.getElementById('l2cxVal').textContent=fmt(l2cx);
+
+  // Safety
+  var fieldW=n('l2safWorkers');
+  var trir=n('l2safTrir');
+  var incidents=trir*fieldW*2080/200000;
+  var safIncVal=incidents*(n('l2safCostInc')*1000)*(n('l2safReduce')/100);
+  var safSaidi=n('l2safSaidi')*1e6*(n('l2safSaidiPct')/100);
+  var l2saf=safIncVal+safSaidi;
+  document.getElementById('l2safVal').textContent=fmt(l2saf);
+
+  // DC
+  var l2dc=n('l2dcCount')*n('l2dcMw')*n('l2dcMonths')*n('l2dcRevMw')*1000;
+  document.getElementById('l2dcVal').textContent=fmt(l2dc);
+
+  var l2Total=l2cap+l2sc+l2reg+l2cx+l2saf+l2dc;
+  document.getElementById('l2Total').textContent=fmt(l2Total);
+
+  // Summary cards
+  var combined=l1Total+l2Total;
+  document.getElementById('sumL1').textContent=fmt(l1Total);
+  document.getElementById('sumL2').textContent=fmt(l2Total);
+  document.getElementById('sumTotal').textContent=fmt(combined);
+
+  // Financial impact
+  var ebitdaDirect=l1Total+l2cx+l2saf;
+  var capEfficiency=l2cap+l2sc;
+  var earningsAccel=l2reg+l2dc;
+  document.getElementById('finEbitda').textContent=fmt(ebitdaDirect);
+  document.getElementById('finRow1').textContent=fmt(ebitdaDirect);
+  document.getElementById('finRow2').textContent=fmt(capEfficiency);
+  document.getElementById('finRow3').textContent=fmt(earningsAccel);
+  document.getElementById('finRowTotal').textContent=fmt(combined);
+
+  var taxRate=n('aTax')/100;
+  var shares=n('aShares');
+  var afterTax=combined*(1-taxRate);
+  var eps=afterTax/(shares*1e6);
+  document.getElementById('finAfterTax').textContent=fmt(afterTax);
+  document.getElementById('finEps').textContent='$'+eps.toFixed(2);
+  document.getElementById('finTaxLabel').textContent=n('aTax')+'%';
+  document.getElementById('finSharesLabel').textContent=shares+'M';
+
+  // ROI
+  var yr1=combined*0.5;
+  var yr2=combined*0.75;
+  var yr3=combined;
+  var cum3=yr1+yr2+yr3;
+  document.getElementById('roiYear1').textContent=fmt(yr1);
+  document.getElementById('roi3yr').textContent=fmt(cum3);
+
+  var totalEmp=n('aTotalEmp');
+  var annualInv=totalEmp*50*12;
+  var inv3=annualInv*3;
+  document.getElementById('invAnnual').textContent=fmt(annualInv);
+  document.getElementById('inv3yr').textContent=fmt(inv3);
+  document.getElementById('invEmpCount').textContent=fmtN(totalEmp);
+
+  var roiX=inv3>0?cum3/inv3:0;
+  document.getElementById('roiMultiple').textContent=roiX.toFixed(1)+'x';
+
+  var monthsPayback=annualInv>0?(annualInv/(combined/12)):99;
+  if(monthsPayback<3) document.getElementById('roiPayback').textContent='< 3 mo';
+  else if(monthsPayback<6) document.getElementById('roiPayback').textContent='< 6 mo';
+  else if(monthsPayback<12) document.getElementById('roiPayback').textContent='< 12 mo';
+  else document.getElementById('roiPayback').textContent=Math.round(monthsPayback)+' mo';
+
+  // Hero
+  document.getElementById('heroNumber').textContent=fmt(cum3);
+}
+
+// Sync assumptions tab with L2 inputs
+document.getElementById('aCapex').addEventListener('input',function(){document.getElementById('l2capSpend').value=this.value;recalc()});
+document.getElementById('aProcure').addEventListener('input',function(){document.getElementById('l2scSpend').value=this.value;recalc()});
+document.getElementById('aRateCase').addEventListener('input',function(){document.getElementById('l2regRev').value=this.value;recalc()});
+document.getElementById('aCounsel').addEventListener('input',function(){document.getElementById('l2regCounsel').value=this.value;recalc()});
+document.getElementById('l2capSpend').addEventListener('input',function(){document.getElementById('aCapex').value=this.value;recalc()});
+document.getElementById('l2scSpend').addEventListener('input',function(){document.getElementById('aProcure').value=this.value;recalc()});
+document.getElementById('l2regRev').addEventListener('input',function(){document.getElementById('aRateCase').value=this.value;recalc()});
+document.getElementById('l2regCounsel').addEventListener('input',function(){document.getElementById('aCounsel').value=this.value;recalc()});
+
+// Sync total employees with investment
+document.getElementById('aTotalEmp').addEventListener('input',recalc);
+
+recalc();
+</script>
+</body>
+</html>
