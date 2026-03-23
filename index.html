@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dominion Energy x Glean: Enterprise AI Value Case</title>
+<style>
+:root {
+  --navy: #1B365D;
+  --navy-light: #2A4A7A;
+  --navy-faint: #E8EDF4;
+  --blue-accent: #3B7DD8;
+  --blue-light: #5A9BF0;
+  --teal: #0A8A6E;
+  --teal-light: #E6F5F1;
+  --amber: #D4860B;
+  --amber-light: #FFF8EC;
+  --surface: #FAFBFD;
+  --white: #FFFFFF;
+  --gray-50: #F8F9FA;
+  --gray-100: #F1F3F5;
+  --gray-200: #E9ECEF;
+  --gray-300: #DEE2E6;
+  --gray-400: #ADB5BD;
+  --gray-500: #868E96;
+  --gray-600: #6C757D;
+  --gray-700: #495057;
+  --gray-800: #343A40;
+  --gray-900: #212529;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow-sm: 0 1px 3px rgba(27,54,93,0.06);
+  --shadow: 0 2px 8px rgba(27,54,93,0.08);
+  --shadow-lg: 0 8px 30px rgba(27,54,93,0.12);
+  --transition: 0.2s ease;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+  background: var(--surface);
+  color: var(--gray-800);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Hero ── */
+.hero {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+  color: white;
+  padding: 80px 40px 60px;
+  text-align: center;
+}
+.hero-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 20px;
+}
+.hero h1 {
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-bottom: 12px;
+}
+.hero p {
+  font-size: 18px;
+  color: rgba(255,255,255,0.75);
+  max-width: 600px;
+  margin: 0 auto 36px;
+  font-weight: 400;
+}
+.hero-stat {
+  display: inline-block;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: var(--radius);
+  padding: 20px 40px;
+  backdrop-filter: blur(10px);
+}
+.hero-stat .label {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 4px;
+}
+.hero-stat .value {
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+/* ── Sections ── */
+.container { max-width: 1120px; margin: 0 auto; padding: 0 32px; }
+
+section { padding: 64px 0; }
+section.alt { background: var(--white); }
+
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--blue-accent);
+  margin-bottom: 8px;
+}
+.section-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--navy);
+  letter-spacing: -0.3px;
+  margin-bottom: 8px;
+}
+.section-subtitle {
+  font-size: 16px;
+  color: var(--gray-600);
+  max-width: 680px;
+  margin-bottom: 40px;
+}
+
+/* ── Value Cards (exec summary) ── */
+.value-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 0;
+}
+.value-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  text-align: center;
+  transition: box-shadow var(--transition);
+}
+.value-card:hover { box-shadow: var(--shadow-lg); }
+.value-card .vc-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 8px;
+}
+.value-card .vc-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--navy);
+  letter-spacing: -0.5px;
+  margin-bottom: 4px;
+}
+.value-card .vc-sub {
+  font-size: 13px;
+  color: var(--gray-500);
+}
+.value-card.highlight {
+  background: var(--navy);
+  border-color: var(--navy);
+}
+.value-card.highlight .vc-label { color: rgba(255,255,255,0.65); }
+.value-card.highlight .vc-value { color: white; }
+.value-card.highlight .vc-sub { color: rgba(255,255,255,0.55); }
+
+/* ── Context Cards ── */
+.context-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.context-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 24px;
+  transition: box-shadow var(--transition);
+}
+.context-card:hover { box-shadow: var(--shadow); }
+.context-card .cc-num {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+.context-card .cc-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gray-800);
+  margin-bottom: 6px;
+}
+.context-card .cc-desc {
+  font-size: 13px;
+  color: var(--gray-600);
+  line-height: 1.5;
+}
+
+/* ── Reference Table ── */
+.ref-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.ref-table th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  padding: 12px 16px;
+  border-bottom: 2px solid var(--gray-200);
+}
+.ref-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--gray-100);
+  color: var(--gray-700);
+}
+.ref-table tr:hover td { background: var(--gray-50); }
+.ref-table .org { font-weight: 600; color: var(--navy); }
+
+.forrester-callout {
+  margin-top: 24px;
+  padding: 20px 24px;
+  background: var(--navy-faint);
+  border-left: 3px solid var(--blue-accent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 14px;
+  color: var(--gray-700);
+  line-height: 1.6;
+}
+.forrester-callout strong { color: var(--navy); }
+
+/* ── Calculator ── */
+.calc-section {
+  padding: 64px 0;
+  background: var(--white);
+}
+
+.calc-tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 2px solid var(--gray-200);
+  margin-bottom: 32px;
+}
+.calc-tab {
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gray-500);
+  cursor: pointer;
+  border: none;
+  background: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all var(--transition);
+}
+.calc-tab:hover { color: var(--gray-700); }
+.calc-tab.active {
+  color: var(--navy);
+  font-weight: 600;
+  border-bottom-color: var(--navy);
+}
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── Input Groups ── */
+.input-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+.input-group label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gray-600);
+  margin-bottom: 6px;
+  letter-spacing: 0.3px;
+}
+.input-group input {
+  padding: 10px 14px;
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--gray-800);
+  background: var(--white);
+  transition: border-color var(--transition), box-shadow var(--transition);
+  font-family: inherit;
+}
+.input-group input:focus {
+  outline: none;
+  border-color: var(--blue-accent);
+  box-shadow: 0 0 0 3px rgba(59,125,216,0.12);
+}
+.input-group .input-hint {
+  font-size: 11px;
+  color: var(--gray-400);
+  margin-top: 4px;
+}
+
+/* ── Editable Table ── */
+.calc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.calc-table th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  padding: 10px 12px;
+  border-bottom: 2px solid var(--gray-200);
+  white-space: nowrap;
+}
+.calc-table th.right, .calc-table td.right { text-align: right; }
+.calc-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--gray-100);
+  vertical-align: middle;
+}
+.calc-table tr.total-row td {
+  font-weight: 700;
+  color: var(--navy);
+  border-top: 2px solid var(--gray-300);
+  border-bottom: none;
+  padding-top: 14px;
+}
+.calc-table input {
+  width: 80px;
+  padding: 6px 10px;
+  border: 1px solid var(--gray-200);
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gray-800);
+  text-align: right;
+  background: var(--gray-50);
+  font-family: inherit;
+  transition: border-color var(--transition);
+}
+.calc-table input:focus {
+  outline: none;
+  border-color: var(--blue-accent);
+  background: var(--white);
+  box-shadow: 0 0 0 3px rgba(59,125,216,0.1);
+}
+.calc-table input.wide { width: 100px; }
+.calc-table .dept-name {
+  font-weight: 600;
+  color: var(--gray-800);
+}
+.calc-table .logic-text {
+  font-size: 12px;
+  color: var(--gray-500);
+  line-height: 1.4;
+  max-width: 260px;
+}
+.computed {
+  font-weight: 600;
+  color: var(--navy);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Financial Impact Cards ── */
+.fi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.fi-card {
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 24px 20px;
+  text-align: center;
+}
+.fi-card .fi-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 8px;
+}
+.fi-card .fi-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--navy);
+  letter-spacing: -0.3px;
+  font-variant-numeric: tabular-nums;
+}
+.fi-card .fi-sub {
+  font-size: 12px;
+  color: var(--gray-500);
+  margin-top: 4px;
+}
+.fi-card.accent {
+  background: var(--navy);
+  border-color: var(--navy);
+}
+.fi-card.accent .fi-label { color: rgba(255,255,255,0.6); }
+.fi-card.accent .fi-value { color: white; }
+.fi-card.accent .fi-sub { color: rgba(255,255,255,0.5); }
+
+/* ── Channel Table ── */
+.channel-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+.channel-table th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  padding: 10px 14px;
+  border-bottom: 2px solid var(--gray-200);
+}
+.channel-table th.right { text-align: right; }
+.channel-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--gray-100);
+}
+.channel-table td.right { text-align: right; font-variant-numeric: tabular-nums; }
+.channel-table .ch-name { font-weight: 600; color: var(--gray-800); }
+.channel-table .ch-desc { font-size: 12px; color: var(--gray-500); }
+.channel-table tr.total-row td {
+  font-weight: 700;
+  color: var(--navy);
+  border-top: 2px solid var(--gray-300);
+}
+
+/* ── Benchmark Bar ── */
+.benchmark-block {
+  background: var(--navy-faint);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-top: 24px;
+}
+.benchmark-block .bb-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+.bench-bar-wrap {
+  position: relative;
+  height: 32px;
+  background: var(--gray-200);
+  border-radius: 16px;
+  overflow: visible;
+  margin-bottom: 8px;
+}
+.bench-bar {
+  height: 100%;
+  border-radius: 16px;
+  background: linear-gradient(90deg, var(--blue-accent), var(--blue-light));
+  transition: width 0.4s ease;
+  min-width: 40px;
+  position: relative;
+}
+.bench-bar-label {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+}
+.bench-markers {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--gray-500);
+  margin-top: 4px;
+}
+.bench-desc {
+  font-size: 13px;
+  color: var(--gray-600);
+  margin-top: 12px;
+  line-height: 1.5;
+}
+
+/* ── ROI Bar ── */
+.roi-section {
+  padding: 64px 0;
+}
+.roi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.roi-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 24px 20px;
+  text-align: center;
+}
+.roi-card .roi-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 8px;
+}
+.roi-card .roi-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--navy);
+  letter-spacing: -0.3px;
+}
+.roi-card .roi-sub {
+  font-size: 12px;
+  color: var(--gray-500);
+  margin-top: 4px;
+}
+.roi-card.green .roi-value { color: var(--teal); }
+
+/* ── Ramp Table ── */
+.ramp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.ramp-table th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  padding: 10px 14px;
+  border-bottom: 2px solid var(--gray-200);
+}
+.ramp-table th.right { text-align: right; }
+.ramp-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--gray-100);
+  font-variant-numeric: tabular-nums;
+}
+.ramp-table td.right { text-align: right; }
+.ramp-table tr.total-row td {
+  font-weight: 700;
+  color: var(--navy);
+  border-top: 2px solid var(--gray-300);
+}
+
+/* ── Next Steps ── */
+.steps-list {
+  list-style: none;
+  counter-reset: steps;
+}
+.steps-list li {
+  counter-increment: steps;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--gray-100);
+}
+.steps-list li::before {
+  content: counter(steps);
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+}
+.step-content .step-title {
+  font-weight: 600;
+  color: var(--gray-800);
+  margin-bottom: 4px;
+}
+.step-content .step-desc {
+  font-size: 14px;
+  color: var(--gray-600);
+}
+
+/* ── Footer ── */
+footer {
+  text-align: center;
+  padding: 40px;
+  font-size: 12px;
+  color: var(--gray-400);
+  border-top: 1px solid var(--gray-200);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .hero { padding: 60px 24px 48px; }
+  .hero h1 { font-size: 30px; }
+  .hero-stat .value { font-size: 28px; }
+  .value-cards, .context-grid, .fi-grid, .roi-grid { grid-template-columns: 1fr; }
+  .input-grid { grid-template-columns: 1fr 1fr; }
+  .container { padding: 0 20px; }
+  .calc-tabs { overflow-x: auto; }
+  .calc-table, .channel-table, .ramp-table { display: block; overflow-x: auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════ HERO ════════════════ -->
+<div class="hero">
+  <div class="hero-badge">Dominion Energy x Glean</div>
+  <h1>Enterprise AI Transformation</h1>
+  <p>A business case for deploying an enterprise AI platform across 15,200 employees to accelerate the $64.7B capital plan.</p>
+  <div class="hero-stat">
+    <div class="label">3-Year Pre-Tax Value</div>
+    <div class="value" id="heroValue">$178M</div>
+  </div>
+</div>
+
+<!-- ════════════════ EXEC SUMMARY ════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-label">Executive Summary</div>
+    <div class="section-title">Two Channels of Value</div>
+    <div class="section-subtitle">The platform delivers value through workforce productivity and strategic initiative acceleration. Even the most conservative scenario delivers payback in under 12 months.</div>
+    <div class="value-cards">
+      <div class="value-card">
+        <div class="vc-label">Workforce Productivity</div>
+        <div class="vc-value" id="summL1">$34M</div>
+        <div class="vc-sub">Annual EBITDA contribution</div>
+      </div>
+      <div class="value-card">
+        <div class="vc-label">Strategic Initiatives</div>
+        <div class="vc-value" id="summL2">$45M</div>
+        <div class="vc-sub">Annual economic value</div>
+      </div>
+      <div class="value-card highlight">
+        <div class="vc-label">Combined Annual Value</div>
+        <div class="vc-value" id="summTotal">$79M</div>
+        <div class="vc-sub">At steady state (mid-case)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ STRATEGIC CONTEXT ════════════════ -->
+<section class="alt">
+  <div class="container">
+    <div class="section-label">Strategic Context</div>
+    <div class="section-title">Why This Matters Now</div>
+    <div class="section-subtitle">Priorities drawn from Dominion's public investor communications that informed the value model.</div>
+    <div class="context-grid">
+      <div class="context-card">
+        <div class="cc-num">$64.7B</div>
+        <div class="cc-title">Capital Execution</div>
+        <div class="cc-desc">Five-year plan is 30% larger than the prior commitment. Information gaps compound across thousands of concurrent projects.</div>
+      </div>
+      <div class="context-card">
+        <div class="cc-num">48.5 GW</div>
+        <div class="cc-title">Data Center Pipeline</div>
+        <div class="cc-desc">More contracted data center capacity than any US utility. Speed to interconnection is a competitive advantage.</div>
+      </div>
+      <div class="context-card">
+        <div class="cc-num">#2</div>
+        <div class="cc-title">O&M Efficiency</div>
+        <div class="cc-desc">Ranks 2nd among peers. Customer rates 4% below US average. Maintaining this means doing more with the same workforce.</div>
+      </div>
+      <div class="context-card">
+        <div class="cc-num">0.26</div>
+        <div class="cc-title">OSHA TRIR</div>
+        <div class="cc-desc">Record safety performance vs. 1.90 industry average. Sustained by real-time access to current procedures and protocols.</div>
+      </div>
+      <div class="context-card">
+        <div class="cc-num">5-7%</div>
+        <div class="cc-title">EPS Growth Target</div>
+        <div class="cc-desc">Earnings trajectory through 2030. Every dollar of O&M savings contributes to the $3.57+ EPS midpoint.</div>
+      </div>
+      <div class="context-card">
+        <div class="cc-num">25-30%</div>
+        <div class="cc-title">Retiring by 2030</div>
+        <div class="cc-desc">Institutional knowledge is walking out the door. The time to capture and surface it is before it's gone.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ VALIDATED AT SCALE ════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-label">Proof Points</div>
+    <div class="section-title">Validated at Scale</div>
+    <div class="section-subtitle">References available under NDA.</div>
+    <table class="ref-table">
+      <thead><tr><th>Organization</th><th>Scale</th><th>Outcome</th></tr></thead>
+      <tbody>
+        <tr><td class="org">Citi</td><td>140,000+ employees</td><td>Internal build-vs-buy: $134M/yr to replicate</td></tr>
+        <tr><td class="org">NVIDIA</td><td>30,000+ employees</td><td>Replaced 2-year internal build. 200+ AI agents. CEO highlighted at CES 2025</td></tr>
+        <tr><td class="org">DBS Bank</td><td>40,000+ employees</td><td>Enterprise-wide under strict banking security. Up to 10% of work hours freed</td></tr>
+        <tr><td class="org">LinkedIn</td><td>20,000+ employees</td><td>Chose over Copilot. 2 IT engineers vs. 50. 20K MAUs in 2 months</td></tr>
+        <tr><td class="org">ConocoPhillips</td><td>10,000+ employees</td><td>Replaced legacy Microsoft search. 60K+ monthly queries enterprise-wide</td></tr>
+        <tr><td class="org">T-Mobile</td><td>75,000+ employees</td><td>17-sec CRT reduction. 47% efficiency gain. $20M+ annualized savings. J.D. Power #1</td></tr>
+      </tbody>
+    </table>
+    <div class="forrester-callout">
+      <strong>Forrester Total Economic Impact (2024):</strong> 141% ROI, payback under 6 months, 110 hours saved per active user per year, 93% adoption within two years across the composite organization.
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ INTERACTIVE CALCULATOR ════════════════ -->
+<section class="calc-section" id="calculator">
+  <div class="container">
+    <div class="section-label">Interactive Model</div>
+    <div class="section-title">Value Summary</div>
+    <div class="section-subtitle">Adjust any assumption below with your own numbers. Every figure on this page recalculates instantly.</div>
+
+    <div class="calc-tabs">
+      <button class="calc-tab active" data-tab="tab-financial">Financial Impact</button>
+      <button class="calc-tab" data-tab="tab-assumptions">Assumptions</button>
+      <button class="calc-tab" data-tab="tab-layer1">Layer 1: Productivity</button>
+      <button class="calc-tab" data-tab="tab-layer2">Layer 2: Strategic</button>
+    </div>
+
+    <!-- ──── Tab: Financial Impact ──── -->
+    <div class="tab-panel active" id="tab-financial">
+      <div class="fi-grid">
+        <div class="fi-card accent">
+          <div class="fi-label">Combined Annual Value</div>
+          <div class="fi-value" id="fiTotal">$79M</div>
+          <div class="fi-sub">At steady state</div>
+        </div>
+        <div class="fi-card">
+          <div class="fi-label">Direct EBITDA</div>
+          <div class="fi-value" id="fiEbitda">$40M</div>
+          <div class="fi-sub" id="fiEbitdaPct">1.0% of non-fuel O&M</div>
+        </div>
+        <div class="fi-card">
+          <div class="fi-label">After-Tax Earnings</div>
+          <div class="fi-value" id="fiEarnings">$59M</div>
+          <div class="fi-sub" id="fiEbitdaShare">0.9% of EBITDA</div>
+        </div>
+        <div class="fi-card">
+          <div class="fi-label">EPS Contribution</div>
+          <div class="fi-value" id="fiEps">$0.07</div>
+          <div class="fi-sub">855M diluted shares</div>
+        </div>
+      </div>
+
+      <h4 style="font-size:14px; font-weight:600; color:var(--gray-700); margin-bottom:16px;">How Value Flows to Financial Statements</h4>
+      <table class="channel-table">
+        <thead><tr><th>Value Channel</th><th>What It Captures</th><th class="right">Annual Value</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="ch-name">Direct EBITDA</td>
+            <td class="ch-desc">Layer 1 productivity + CX + safety ops</td>
+            <td class="right computed" id="chEbitda">$40M</td>
+          </tr>
+          <tr>
+            <td class="ch-name">Capital Efficiency</td>
+            <td class="ch-desc">Capital execution + supply chain savings</td>
+            <td class="right computed" id="chCapital">$21M</td>
+          </tr>
+          <tr>
+            <td class="ch-name">Earnings Acceleration</td>
+            <td class="ch-desc">Regulatory protection + DC interconnection</td>
+            <td class="right computed" id="chEarnings">$18M</td>
+          </tr>
+          <tr class="total-row">
+            <td>Total Economic Value</td>
+            <td></td>
+            <td class="right" id="chTotal">$79M</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size:14px; font-weight:600; color:var(--gray-700); margin: 32px 0 16px;">FTE Capacity Unlocked</h4>
+      <div class="fi-grid" style="grid-template-columns: repeat(3,1fr);">
+        <div class="fi-card">
+          <div class="fi-label">Hours Freed / Year</div>
+          <div class="fi-value" id="fiFteHours" style="font-size:24px;">443,000</div>
+        </div>
+        <div class="fi-card">
+          <div class="fi-label">FTE-Equivalents</div>
+          <div class="fi-value" id="fiFte" style="font-size:24px;">246</div>
+        </div>
+        <div class="fi-card">
+          <div class="fi-label">Avg Hours/Week (KW)</div>
+          <div class="fi-value" id="fiAvgHrs" style="font-size:24px;">1.3</div>
+          <div class="fi-sub">vs. Forrester 2-3 hrs/wk</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ──── Tab: Assumptions ──── -->
+    <div class="tab-panel" id="tab-assumptions">
+      <div class="input-grid">
+        <div class="input-group">
+          <label>Annual Capital Spend</label>
+          <input type="text" id="aCapex" value="12.9" />
+          <div class="input-hint">$ Billions / year</div>
+        </div>
+        <div class="input-group">
+          <label>Competitively Bid Procurement</label>
+          <input type="text" id="aProcure" value="5.0" />
+          <div class="input-hint">$ Billions / year</div>
+        </div>
+        <div class="input-group">
+          <label>Rate Case Revenue Requirements</label>
+          <input type="text" id="aRateCase" value="2.0" />
+          <div class="input-hint">$ Billions</div>
+        </div>
+        <div class="input-group">
+          <label>Non-Fuel O&M</label>
+          <input type="text" id="aOM" value="4.1" />
+          <div class="input-hint">$ Billions / year</div>
+        </div>
+        <div class="input-group">
+          <label>EBITDA</label>
+          <input type="text" id="aEbitda" value="6.8" />
+          <div class="input-hint">$ Billions</div>
+        </div>
+        <div class="input-group">
+          <label>DC Connections / Year</label>
+          <input type="text" id="aDCCount" value="15" />
+          <div class="input-hint">New data centers per year</div>
+        </div>
+        <div class="input-group">
+          <label>Avg Contact Center AHT</label>
+          <input type="text" id="aAHT" value="8" />
+          <div class="input-hint">Minutes (industry benchmark)</div>
+        </div>
+        <div class="input-group">
+          <label>Tax Rate</label>
+          <input type="text" id="aTax" value="25" />
+          <div class="input-hint">Percent</div>
+        </div>
+        <div class="input-group">
+          <label>Diluted Shares Outstanding</label>
+          <input type="text" id="aShares" value="855" />
+          <div class="input-hint">Millions</div>
+        </div>
+        <div class="input-group">
+          <label>FTE Productive Hours / Year</label>
+          <input type="text" id="aFteHrs" value="1800" />
+          <div class="input-hint">Hours</div>
+        </div>
+        <div class="input-group">
+          <label>Total Employees</label>
+          <input type="text" id="aTotalEmp" value="15200" />
+          <div class="input-hint">Enterprise-wide headcount</div>
+        </div>
+        <div class="input-group">
+          <label>Working Days / Year</label>
+          <input type="text" id="aWorkDays" value="250" />
+          <div class="input-hint">Business days</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ──── Tab: Layer 1 ──── -->
+    <div class="tab-panel" id="tab-layer1">
+      <table class="calc-table" id="l1Table">
+        <thead>
+          <tr>
+            <th>Department</th>
+            <th class="right">Headcount</th>
+            <th class="right">Min Saved/Day</th>
+            <th class="right">Adoption %</th>
+            <th class="right">Rate ($/hr)</th>
+            <th class="right">Hours Freed</th>
+            <th class="right">Annual Value</th>
+          </tr>
+        </thead>
+        <tbody id="l1Body"></tbody>
+      </table>
+      <div class="benchmark-block">
+        <div class="bb-title">How Conservative Is This Model?</div>
+        <div class="bench-bar-wrap">
+          <div class="bench-bar" id="benchBar" style="width:40%">
+            <span class="bench-bar-label" id="benchBarLabel">1.3 hrs/wk</span>
+          </div>
+        </div>
+        <div class="bench-markers">
+          <span>0 hrs/wk</span>
+          <span>Forrester: 2-3 hrs/wk</span>
+          <span>Users report: 3-4+ hrs/wk</span>
+        </div>
+        <div class="bench-desc">The 2024 Forrester TEI study found active users save 110 hours/year (~2-3 hrs/week). Users self-report 3-4+ hrs/week. This model averages <strong id="benchAvg">1.3</strong> hrs/week for knowledge workers, deliberately below both benchmarks.</div>
+      </div>
+    </div>
+
+    <!-- ──── Tab: Layer 2 ──── -->
+    <div class="tab-panel" id="tab-layer2">
+      <table class="calc-table" id="l2Table">
+        <thead>
+          <tr>
+            <th>Initiative</th>
+            <th style="width:260px">How Glean Helps</th>
+            <th class="right">Base ($B)</th>
+            <th class="right">Factor %</th>
+            <th class="right">Annual Value</th>
+          </tr>
+        </thead>
+        <tbody id="l2Body"></tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════ INVESTMENT & ROI ════════════════ -->
+<section class="roi-section">
+  <div class="container">
+    <div class="section-label">Investment</div>
+    <div class="section-title">Return on Investment</div>
+    <div class="section-subtitle">List pricing at $50/user/month as a reference baseline. Commercial terms will be tailored to align with Dominion's needs.</div>
+
+    <div class="roi-grid">
+      <div class="roi-card">
+        <div class="roi-label">Annual Investment (List)</div>
+        <div class="roi-value" id="roiAnnual">$9.1M</div>
+        <div class="roi-sub">$50/user/month</div>
+      </div>
+      <div class="roi-card">
+        <div class="roi-label">3-Year Investment</div>
+        <div class="roi-value" id="roi3yr">$27.4M</div>
+        <div class="roi-sub">At list pricing</div>
+      </div>
+      <div class="roi-card green">
+        <div class="roi-label">3-Year ROI</div>
+        <div class="roi-value" id="roiMultiple">6.5x</div>
+        <div class="roi-sub">Return on investment</div>
+      </div>
+      <div class="roi-card green">
+        <div class="roi-label">Payback Period</div>
+        <div class="roi-value" id="roiPayback">&lt; 6 mo</div>
+        <div class="roi-sub">Time to break even</div>
+      </div>
+    </div>
+
+    <h4 style="font-size:14px; font-weight:600; color:var(--gray-700); margin-bottom:16px;">3-Year Value by Adoption Ramp</h4>
+    <table class="ramp-table">
+      <thead><tr><th>Year</th><th>Adoption Ramp</th><th class="right">Annual Value</th><th class="right">Cumulative</th></tr></thead>
+      <tbody>
+        <tr><td>Year 1</td><td>50%</td><td class="right" id="rampY1">$40M</td><td class="right" id="rampC1">$40M</td></tr>
+        <tr><td>Year 2</td><td>75%</td><td class="right" id="rampY2">$59M</td><td class="right" id="rampC2">$99M</td></tr>
+        <tr><td>Year 3</td><td>100%</td><td class="right" id="rampY3">$79M</td><td class="right" id="rampC3">$178M</td></tr>
+        <tr class="total-row"><td>3-Year Cumulative</td><td></td><td></td><td class="right" id="rampTotal">$178M</td></tr>
+      </tbody>
+    </table>
+
+    <div style="margin-top:24px; padding:20px 24px; background:var(--navy-faint); border-radius:var(--radius); font-size:14px; color:var(--gray-700); line-height:1.6;">
+      Glean is committed to working with Dominion on commercial terms that reflect the scale and strategic nature of this partnership. The numbers above use list pricing as a reference. Any negotiated terms improve these returns further.
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ NEXT STEPS ════════════════ -->
+<section class="alt">
+  <div class="container">
+    <div class="section-label">Path Forward</div>
+    <div class="section-title">Recommended Next Steps</div>
+    <ol class="steps-list">
+      <li><div class="step-content"><div class="step-title">Joint working session to validate baseline metrics</div><div class="step-desc">DomNet search success rate, contact center AHT, engineering search time, and supply chain cycle time. These inputs sharpen the model and make the business case Dominion's own.</div></div></li>
+      <li><div class="step-content"><div class="step-title">Finalize DomNet platform commitment</div><div class="step-desc">Target mid-April for the DomNet platform agreement that includes Phase 1 professional services.</div></div></li>
+      <li><div class="step-content"><div class="step-title">Execute DomNet pilot</div><div class="step-desc">Stand up the platform, connect core sources, and deliver measurable DomNet search results for the June showcase.</div></div></li>
+      <li><div class="step-content"><div class="step-title">June showcase</div><div class="step-desc">Present pilot results to Dominion leadership. Pilot outcomes earn the right to scale.</div></div></li>
+      <li><div class="step-content"><div class="step-title">Production rollout</div><div class="step-desc">Scale to full DomNet production, then expand to department agent activation and enterprise conversion.</div></div></li>
+    </ol>
+  </div>
+</section>
+
+<footer>
+  Prepared for Dominion Energy Executive Leadership &middot; March 2026 &middot; Confidential
+</footer>
+
+<script>
+// ══════════════════════════════════════════════════════
+// Layer 1 Department Definitions
+// ══════════════════════════════════════════════════════
+const L1_DEPTS = [
+  { name: 'Enterprise Knowledge Workers', headcount: 7000, minDay: 15, adoption: 60, rate: 80, type: 'daily' },
+  { name: 'Engineering & Major Projects', headcount: 2000, minDay: 20, adoption: 50, rate: 90, type: 'daily' },
+  { name: 'Customer Service', headcount: 1500, minDay: 15, adoption: 70, rate: 50, type: 'daily' },
+  { name: 'Field & Plant Operations', headcount: 4000, minDay: 11, adoption: 30, rate: 60, type: 'annual_hrs' },
+  { name: 'Supply Chain & Procurement', headcount: 500, minDay: 25, adoption: 50, rate: 85, type: 'daily' },
+  { name: 'Regulatory, Legal & Compliance', headcount: 400, minDay: 30, adoption: 70, rate: 120, type: 'annual_hrs' },
+  { name: 'IT & HR Support (tickets deflected)', headcount: 24000, minDay: 1, adoption: 100, rate: 60, type: 'tickets' }
+];
+
+// ══════════════════════════════════════════════════════
+// Layer 2 Initiative Definitions
+// ══════════════════════════════════════════════════════
+const L2_INITS = [
+  {
+    name: 'Capital Execution',
+    logic: 'Engineers find prior designs, standards, and lessons learned in seconds instead of hours, reducing rework and accelerating project delivery.',
+    baseKey: 'aCapex',
+    factor: 0.10,
+    unit: 'B'
+  },
+  {
+    name: 'Supply Chain & Procurement',
+    logic: 'Faster RFP analysis and instant contract term retrieval cut procurement cycle times and strengthen renegotiation leverage during tariff volatility.',
+    baseKey: 'aProcure',
+    factor: 0.10,
+    unit: 'B'
+  },
+  {
+    name: 'Regulatory Outcomes',
+    logic: 'Rate case teams assemble evidence 50% faster by surfacing prior filings, precedent, and cost justification across fragmented archives.',
+    baseKey: 'aRateCase',
+    factor: 0.25,
+    unit: 'B'
+  },
+  {
+    name: 'Customer Experience',
+    logic: 'Agent-assist AI surfaces answers during live calls, improving first-contact resolution and eliminating ~30K repeat calls/year.',
+    baseKey: null,
+    baseVal: 3,
+    factor: null,
+    unit: 'fixed'
+  },
+  {
+    name: 'Safety & Reliability',
+    logic: 'Field crews access current procedures and outage playbooks on mobile in real time instead of searching through SharePoint folders.',
+    baseKey: null,
+    baseVal: 3,
+    factor: null,
+    unit: 'fixed'
+  },
+  {
+    name: 'DC Interconnection',
+    logic: 'Faster engineering retrieval for interconnection studies and permitting shaves ~1 month per connection across 15+ new data centers per year.',
+    baseKey: null,
+    baseVal: 11,
+    factor: null,
+    unit: 'fixed'
+  }
+];
+
+// ══════════════════════════════════════════════════════
+// Tab Switching
+// ══════════════════════════════════════════════════════
+document.querySelectorAll('.calc-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.calc-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+
+// ══════════════════════════════════════════════════════
+// Build Layer 1 Table
+// ══════════════════════════════════════════════════════
+function buildL1Table() {
+  const tbody = document.getElementById('l1Body');
+  tbody.innerHTML = '';
+  L1_DEPTS.forEach((d, i) => {
+    const tr = document.createElement('tr');
+    let minLabel = d.type === 'annual_hrs' ? 'Hrs/Yr' : (d.type === 'tickets' ? 'Hrs/Ticket' : 'Min/Day');
+    tr.innerHTML = `
+      <td class="dept-name">${d.name}</td>
+      <td class="right"><input id="l1h${i}" value="${d.headcount}" /></td>
+      <td class="right"><input id="l1m${i}" value="${d.minDay}" /><div style="font-size:10px;color:var(--gray-400);text-align:right;margin-top:2px">${minLabel}</div></td>
+      <td class="right"><input id="l1a${i}" value="${d.adoption}" /></td>
+      <td class="right"><input id="l1r${i}" value="${d.rate}" /></td>
+      <td class="right computed" id="l1hrs${i}">-</td>
+      <td class="right computed" id="l1val${i}">-</td>
+    `;
+    tbody.appendChild(tr);
+  });
+  // Total row
+  const totTr = document.createElement('tr');
+  totTr.className = 'total-row';
+  totTr.innerHTML = `<td>Total</td><td></td><td></td><td></td><td></td><td class="right" id="l1TotalHrs">-</td><td class="right" id="l1TotalVal">-</td>`;
+  tbody.appendChild(totTr);
+}
+
+// ══════════════════════════════════════════════════════
+// Build Layer 2 Table
+// ══════════════════════════════════════════════════════
+function buildL2Table() {
+  const tbody = document.getElementById('l2Body');
+  tbody.innerHTML = '';
+  L2_INITS.forEach((init, i) => {
+    const tr = document.createElement('tr');
+    if (init.unit === 'fixed') {
+      tr.innerHTML = `
+        <td class="dept-name">${init.name}</td>
+        <td class="logic-text">${init.logic}</td>
+        <td class="right"><span style="color:var(--gray-400);">-</span></td>
+        <td class="right"><span style="color:var(--gray-400);">-</span></td>
+        <td class="right"><input id="l2v${i}" value="${init.baseVal}" style="width:80px" /><div style="font-size:10px;color:var(--gray-400);text-align:right;margin-top:2px">$M / year</div></td>
+      `;
+    } else {
+      tr.innerHTML = `
+        <td class="dept-name">${init.name}</td>
+        <td class="logic-text">${init.logic}</td>
+        <td class="right"><input id="l2b${i}" value="${gv(init.baseKey)}" style="width:70px" /><div style="font-size:10px;color:var(--gray-400);text-align:right;margin-top:2px">$B</div></td>
+        <td class="right"><input id="l2f${i}" value="${init.factor}" style="width:70px" /><div style="font-size:10px;color:var(--gray-400);text-align:right;margin-top:2px">%</div></td>
+        <td class="right computed" id="l2val${i}">-</td>
+      `;
+    }
+    tbody.appendChild(tr);
+  });
+  const totTr = document.createElement('tr');
+  totTr.className = 'total-row';
+  totTr.innerHTML = `<td>Total Strategic Value</td><td></td><td></td><td></td><td class="right" id="l2TotalVal">-</td>`;
+  tbody.appendChild(totTr);
+}
+
+// ══════════════════════════════════════════════════════
+// Helpers
+// ══════════════════════════════════════════════════════
+function gv(id) { const el = document.getElementById(id); return el ? parseFloat(el.value) || 0 : 0; }
+function fmt(n) {
+  if (Math.abs(n) >= 1e9) return '$' + (n / 1e9).toFixed(1) + 'B';
+  if (Math.abs(n) >= 1e6) return '$' + (n / 1e6).toFixed(n >= 100e6 ? 0 : 1) + 'M';
+  if (Math.abs(n) >= 1e3) return '$' + (n / 1e3).toFixed(0) + 'K';
+  return '$' + n.toFixed(0);
+}
+function fmtInt(n) { return Math.round(n).toLocaleString(); }
+
+// ══════════════════════════════════════════════════════
+// Recalculate Everything
+// ══════════════════════════════════════════════════════
+function recalc() {
+  const workDays = gv('aWorkDays') || 250;
+  const fteHrs = gv('aFteHrs') || 1800;
+  const taxRate = (gv('aTax') || 25) / 100;
+  const shares = (gv('aShares') || 855) * 1e6;
+  const omB = gv('aOM') || 4.1;
+  const ebitdaB = gv('aEbitda') || 6.8;
+  const totalEmp = gv('aTotalEmp') || 15200;
+
+  // ── Layer 1 ──
+  let totalHours = 0, totalValue = 0;
+  let kwHours = 0, kwCount = 0;
+
+  L1_DEPTS.forEach((d, i) => {
+    const hc = gv(`l1h${i}`);
+    const minD = gv(`l1m${i}`);
+    const adopt = gv(`l1a${i}`) / 100;
+    const rate = gv(`l1r${i}`);
+    let hours = 0, val = 0;
+
+    if (d.type === 'daily') {
+      hours = hc * (minD / 60) * workDays * adopt;
+      val = hours * rate;
+    } else if (d.type === 'annual_hrs') {
+      hours = hc * minD * adopt;
+      val = hours * rate;
+    } else if (d.type === 'tickets') {
+      // hc = tickets deflected, minD = hrs per ticket
+      hours = hc * minD;
+      val = hours * rate;
+    }
+
+    totalHours += hours;
+    totalValue += val;
+
+    // KW average (first 3 daily depts)
+    if (i < 3) {
+      kwHours += hours;
+      kwCount += hc * adopt;
+    }
+
+    document.getElementById(`l1hrs${i}`).textContent = fmtInt(hours);
+    document.getElementById(`l1val${i}`).textContent = fmt(val);
+  });
+
+  document.getElementById('l1TotalHrs').textContent = fmtInt(totalHours);
+  document.getElementById('l1TotalVal').textContent = fmt(totalValue);
+
+  // Benchmark
+  const avgHrsWk = kwCount > 0 ? (kwHours / kwCount / 50) : 0;
+  const benchPct = Math.min(avgHrsWq_safe(avgHrsWk) / 4 * 100, 100);
+  document.getElementById('benchBar').style.width = benchPct + '%';
+  document.getElementById('benchBarLabel').textContent = avgHrsWk.toFixed(1) + ' hrs/wk';
+  document.getElementById('benchAvg').textContent = avgHrsWk.toFixed(1);
+
+  // ── Layer 2 ──
+  let totalL2 = 0;
+  L2_INITS.forEach((init, i) => {
+    let val = 0;
+    if (init.unit === 'fixed') {
+      val = gv(`l2v${i}`) * 1e6;
+    } else {
+      const base = gv(`l2b${i}`) * 1e9;
+      const factor = gv(`l2f${i}`) / 100;
+      val = base * factor;
+      document.getElementById(`l2val${i}`).textContent = fmt(val);
+    }
+    totalL2 += val;
+  });
+  document.getElementById('l2TotalVal').textContent = fmt(totalL2);
+
+  // ── Combined ──
+  const combined = totalValue + totalL2;
+  const l1Val = totalValue;
+  const l2Val = totalL2;
+
+  // Exec summary
+  document.getElementById('summL1').textContent = fmt(l1Val);
+  document.getElementById('summL2').textContent = fmt(l2Val);
+  document.getElementById('summTotal').textContent = fmt(combined);
+
+  // Financial impact
+  document.getElementById('fiTotal').textContent = fmt(combined);
+
+  // EBITDA = L1 + CX + safety (indices 3, 4 in L2 fixed)
+  const cxVal = gv('l2v3') * 1e6;
+  const safetyVal = gv('l2v4') * 1e6;
+  const directEbitda = l1Val + cxVal + safetyVal;
+  document.getElementById('fiEbitda').textContent = fmt(directEbitda);
+  document.getElementById('fiEbitdaPct').textContent = (directEbitda / (omB * 1e9) * 100).toFixed(1) + '% of non-fuel O&M';
+
+  const afterTax = combined * (1 - taxRate);
+  document.getElementById('fiEarnings').textContent = fmt(afterTax);
+  document.getElementById('fiEbitdaShare').textContent = (afterTax / (ebitdaB * 1e9) * 100).toFixed(1) + '% of EBITDA';
+
+  const eps = afterTax / shares;
+  document.getElementById('fiEps').textContent = '$' + eps.toFixed(2);
+
+  // Channel table
+  // Capital + supply chain
+  let capEff = 0;
+  L2_INITS.forEach((init, i) => {
+    if (i === 0 || i === 1) {
+      capEff += init.unit === 'fixed' ? gv(`l2v${i}`) * 1e6 : gv(`l2b${i}`) * 1e9 * (gv(`l2f${i}`) / 100);
+    }
+  });
+  // Regulatory + DC
+  let earnAcc = 0;
+  L2_INITS.forEach((init, i) => {
+    if (i === 2 || i === 5) {
+      earnAcc += init.unit === 'fixed' ? gv(`l2v${i}`) * 1e6 : gv(`l2b${i}`) * 1e9 * (gv(`l2f${i}`) / 100);
+    }
+  });
+
+  document.getElementById('chEbitda').textContent = fmt(directEbitda);
+  document.getElementById('chCapital').textContent = fmt(capEff);
+  document.getElementById('chEarnings').textContent = fmt(earnAcc);
+  document.getElementById('chTotal').textContent = fmt(combined);
+
+  // FTE
+  document.getElementById('fiFteHours').textContent = fmtInt(totalHours);
+  document.getElementById('fiFte').textContent = fmtInt(totalHours / fteHrs);
+  document.getElementById('fiAvgHrs').textContent = avgHrsWk.toFixed(1);
+
+  // ROI
+  const annualInvest = totalEmp * 50 * 12;
+  const threeYrInvest = annualInvest * 3;
+  document.getElementById('roiAnnual').textContent = fmt(annualInvest);
+  document.getElementById('roi3yr').textContent = fmt(threeYrInvest);
+
+  // 3-year ramp
+  const y1 = combined * 0.5;
+  const y2 = combined * 0.75;
+  const y3 = combined * 1.0;
+  const cumY1 = y1;
+  const cumY2 = cumY1 + y2;
+  const cumY3 = cumY2 + y3;
+
+  document.getElementById('rampY1').textContent = fmt(y1);
+  document.getElementById('rampY2').textContent = fmt(y2);
+  document.getElementById('rampY3').textContent = fmt(y3);
+  document.getElementById('rampC1').textContent = fmt(cumY1);
+  document.getElementById('rampC2').textContent = fmt(cumY2);
+  document.getElementById('rampC3').textContent = fmt(cumY3);
+  document.getElementById('rampTotal').textContent = fmt(cumY3);
+
+  const roiX = cumY3 / threeYrInvest;
+  document.getElementById('roiMultiple').textContent = roiX.toFixed(1) + 'x';
+
+  // Payback
+  const monthsToPayback = annualInvest > 0 ? (annualInvest / (combined * 0.5 / 12)) : 99;
+  let paybackStr = '< 12 mo';
+  if (monthsToPayback <= 3) paybackStr = '< 3 mo';
+  else if (monthsToPayback <= 6) paybackStr = '< 6 mo';
+  else if (monthsToPayback <= 9) paybackStr = '< 9 mo';
+  else if (monthsToPayback <= 12) paybackStr = '< 12 mo';
+  else paybackStr = Math.round(monthsToPayback) + ' mo';
+  document.getElementById('roiPayback').textContent = paybackStr;
+
+  // Hero
+  document.getElementById('heroValue').textContent = fmt(cumY3);
+}
+
+function avgHrsWq_safe(v) { return Math.max(0, v); }
+
+// ══════════════════════════════════════════════════════
+// Init + Event Listeners
+// ══════════════════════════════════════════════════════
+buildL1Table();
+buildL2Table();
+recalc();
+
+document.addEventListener('input', (e) => {
+  if (e.target.tagName === 'INPUT') recalc();
+});
+</script>
+</body>
+</html>
