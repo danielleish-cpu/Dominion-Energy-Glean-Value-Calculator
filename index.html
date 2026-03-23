@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dominion Energy — Value Calculator</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:#f5f5f7;color:#1d1d1f;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── Header ── */
+.site-header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(0,48,87,0.92);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  padding:16px 32px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.site-header .logo{
+  font-size:18px;font-weight:600;color:#fff;letter-spacing:0.02em;
+}
+.site-header .logo span{color:#00b2e3}
+.site-header .subtitle{font-size:13px;color:rgba(255,255,255,0.6);letter-spacing:0.05em;text-transform:uppercase}
+
+/* ── Page ── */
+.page{max-width:1120px;margin:0 auto;padding:48px 24px 96px}
+
+/* ── Section titles ── */
+.section-label{
+  font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;
+  color:#86868b;margin-bottom:8px;
+}
+.section-title{
+  font-size:28px;font-weight:600;line-height:1.15;color:#1d1d1f;margin-bottom:6px;
+}
+.section-desc{font-size:15px;color:#6e6e73;margin-bottom:32px;max-width:640px}
+
+/* ── Hero cards ── */
+.hero-row{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:56px;
+}
+.hero-card{
+  background:#fff;border-radius:12px;padding:28px 24px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.06),0 8px 24px rgba(0,0,0,0.04);
+  transition:transform 0.2s ease,box-shadow 0.2s ease;
+}
+.hero-card:hover{transform:translateY(-2px);box-shadow:0 2px 6px rgba(0,0,0,0.08),0 12px 32px rgba(0,0,0,0.06)}
+.hero-card .label{font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#86868b;margin-bottom:8px}
+.hero-card .value{font-size:32px;font-weight:600;color:#003057;line-height:1.1}
+.hero-card .sub{font-size:13px;color:#6e6e73;margin-top:6px}
+.hero-card.accent{background:#003057}
+.hero-card.accent .label{color:rgba(255,255,255,0.5)}
+.hero-card.accent .value{color:#fff}
+.hero-card.accent .sub{color:rgba(255,255,255,0.6)}
+
+/* ── Panels ── */
+.panel{
+  background:#fff;border-radius:12px;padding:32px;margin-bottom:24px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.06),0 8px 24px rgba(0,0,0,0.04);
+}
+.panel-title{font-size:20px;font-weight:600;color:#1d1d1f;margin-bottom:4px}
+.panel-subtitle{font-size:14px;color:#86868b;margin-bottom:24px}
+
+/* ── Inputs grid ── */
+.inputs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px 32px}
+@media(max-width:720px){.inputs-grid{grid-template-columns:1fr}}
+.input-group{display:flex;flex-direction:column;gap:6px}
+.input-group label{font-size:12px;font-weight:600;letter-spacing:0.04em;color:#6e6e73}
+.input-group input,.input-group select{
+  font-family:inherit;font-size:15px;font-weight:500;color:#1d1d1f;
+  background:#f5f5f7;border:1px solid rgba(0,0,0,0.08);border-radius:8px;
+  padding:10px 14px;transition:border-color 0.2s ease,box-shadow 0.2s ease;
+  width:100%;
+}
+.input-group input:focus,.input-group select:focus{
+  outline:none;border-color:#003057;
+  box-shadow:0 0 0 3px rgba(0,48,87,0.12);
+}
+.input-hint{font-size:11px;color:#86868b;margin-top:2px}
+
+/* ── Department table ── */
+.dept-table{width:100%;border-collapse:collapse;margin-top:8px}
+.dept-table thead th{
+  font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;
+  color:#86868b;text-align:left;padding:8px 12px;border-bottom:1px solid rgba(0,0,0,0.08);
+}
+.dept-table thead th:not(:first-child){text-align:right}
+.dept-table tbody td{
+  font-size:14px;color:#1d1d1f;padding:10px 12px;
+  border-bottom:1px solid rgba(0,0,0,0.04);
+  transition:background-color 0.15s ease;
+}
+.dept-table tbody td:not(:first-child){text-align:right;font-variant-numeric:tabular-nums}
+.dept-table tbody tr:hover td{background:rgba(0,48,87,0.02)}
+.dept-table tbody td input{
+  font-family:inherit;font-size:14px;font-weight:500;color:#1d1d1f;
+  background:#f5f5f7;border:1px solid rgba(0,0,0,0.06);border-radius:6px;
+  padding:6px 10px;width:90px;text-align:right;
+  transition:border-color 0.2s ease,box-shadow 0.2s ease;
+}
+.dept-table tbody td input:focus{outline:none;border-color:#003057;box-shadow:0 0 0 3px rgba(0,48,87,0.12)}
+.dept-table .dept-name{font-weight:500}
+.dept-table tfoot td{
+  font-size:14px;font-weight:600;color:#003057;padding:12px 12px;
+  border-top:2px solid rgba(0,48,87,0.15);
+}
+
+/* ── Layer 2 table ── */
+.l2-table{width:100%;border-collapse:collapse;margin-top:8px}
+.l2-table thead th{
+  font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;
+  color:#86868b;text-align:left;padding:8px 12px;border-bottom:1px solid rgba(0,0,0,0.08);
+}
+.l2-table thead th:not(:first-child){text-align:right}
+.l2-table tbody td{
+  font-size:14px;color:#1d1d1f;padding:10px 12px;
+  border-bottom:1px solid rgba(0,0,0,0.04);
+}
+.l2-table tbody td:not(:first-child){text-align:right;font-variant-numeric:tabular-nums}
+.l2-table tbody td input{
+  font-family:inherit;font-size:14px;font-weight:500;color:#1d1d1f;
+  background:#f5f5f7;border:1px solid rgba(0,0,0,0.06);border-radius:6px;
+  padding:6px 10px;width:80px;text-align:right;
+  transition:border-color 0.2s ease,box-shadow 0.2s ease;
+}
+.l2-table tbody td input:focus{outline:none;border-color:#003057;box-shadow:0 0 0 3px rgba(0,48,87,0.12)}
+.l2-table tbody tr:hover td{background:rgba(0,48,87,0.02)}
+.l2-table tfoot td{
+  font-size:14px;font-weight:600;color:#003057;padding:12px 12px;
+  border-top:2px solid rgba(0,48,87,0.15);
+}
+
+/* ── Benchmark bar ── */
+.benchmark{
+  margin-top:24px;padding:20px 24px;background:#f0f7fa;border-radius:10px;
+  border-left:3px solid #00b2e3;
+}
+.benchmark .bm-title{font-size:13px;font-weight:600;color:#003057;margin-bottom:8px}
+.benchmark .bm-body{font-size:14px;color:#3a3a3c;line-height:1.55}
+.benchmark .bm-body strong{color:#003057}
+
+/* ── Financial summary grid ── */
+.fin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.fin-card{padding:20px;background:#f5f5f7;border-radius:10px;text-align:center}
+.fin-card .fc-label{font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#86868b;margin-bottom:6px}
+.fin-card .fc-value{font-size:26px;font-weight:600;color:#003057}
+.fin-card .fc-sub{font-size:12px;color:#6e6e73;margin-top:4px}
+
+/* ── ROI banner ── */
+.roi-banner{
+  background:linear-gradient(135deg,#003057 0%,#004a7c 100%);
+  border-radius:12px;padding:36px 32px;margin-top:24px;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;text-align:center;
+}
+.roi-item .ri-label{font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:6px}
+.roi-item .ri-value{font-size:36px;font-weight:600;color:#fff}
+.roi-item .ri-sub{font-size:13px;color:rgba(255,255,255,0.6);margin-top:4px}
+
+/* ── Footer ── */
+.page-footer{
+  text-align:center;padding:32px;font-size:12px;color:#86868b;
+}
+
+/* ── Responsive ── */
+@media(max-width:900px){
+  .hero-row{grid-template-columns:repeat(2,1fr)}
+  .fin-grid{grid-template-columns:1fr}
+  .roi-banner{grid-template-columns:1fr}
+}
+@media(max-width:540px){
+  .hero-row{grid-template-columns:1fr}
+}
+
+/* ── Animations ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.panel,.hero-card{animation:fadeUp 0.4s ease both}
+.hero-card:nth-child(2){animation-delay:0.06s}
+.hero-card:nth-child(3){animation-delay:0.12s}
+.hero-card:nth-child(4){animation-delay:0.18s}
+
+/* ── Tabs ── */
+.tab-bar{display:flex;gap:4px;margin-bottom:28px;border-bottom:1px solid rgba(0,0,0,0.06);padding-bottom:0}
+.tab-btn{
+  font-family:inherit;font-size:14px;font-weight:500;color:#86868b;
+  background:none;border:none;padding:10px 18px;cursor:pointer;
+  border-bottom:2px solid transparent;transition:color 0.2s ease,border-color 0.2s ease;
+}
+.tab-btn:hover{color:#1d1d1f}
+.tab-btn.active{color:#003057;border-bottom-color:#003057;font-weight:600}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+
+/* ── Scenario toggle ── */
+.scenario-toggle{
+  display:inline-flex;gap:0;border-radius:8px;overflow:hidden;
+  border:1px solid rgba(0,0,0,0.08);margin-bottom:24px;
+}
+.scenario-btn{
+  font-family:inherit;font-size:13px;font-weight:500;
+  padding:8px 20px;border:none;cursor:pointer;
+  background:#fff;color:#6e6e73;transition:all 0.2s ease;
+}
+.scenario-btn:hover{background:#f0f0f2}
+.scenario-btn.active{background:#003057;color:#fff}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div>
+    <div class="logo">Dominion <span>Energy</span></div>
+  </div>
+  <div class="subtitle">Enterprise AI Value Calculator</div>
+</header>
+
+<div class="page">
+
+  <!-- Hero KPIs -->
+  <div style="margin-bottom:12px">
+    <div class="section-label">Value Summary</div>
+    <div class="section-title">Your Numbers. Your Business Case.</div>
+    <div class="section-desc">Adjust any assumption below. Every number on this page recalculates instantly.</div>
+  </div>
+
+  <div class="scenario-toggle">
+    <button class="scenario-btn" data-s="low" onclick="setScenario('low')">Conservative</button>
+    <button class="scenario-btn active" data-s="mid" onclick="setScenario('mid')">Mid-Case</button>
+    <button class="scenario-btn" data-s="high" onclick="setScenario('high')">Optimistic</button>
+  </div>
+
+  <div class="hero-row">
+    <div class="hero-card">
+      <div class="label">Layer 1: Productivity</div>
+      <div class="value" id="h-l1">$34M</div>
+      <div class="sub" id="h-l1-sub">~246 FTEs of capacity</div>
+    </div>
+    <div class="hero-card">
+      <div class="label">Layer 2: Strategic</div>
+      <div class="value" id="h-l2">$45M</div>
+      <div class="sub" id="h-l2-sub">Capital, supply chain, regulatory</div>
+    </div>
+    <div class="hero-card">
+      <div class="label">Combined Annual Value</div>
+      <div class="value" id="h-total">$79M</div>
+      <div class="sub" id="h-total-sub">Steady-state pre-tax</div>
+    </div>
+    <div class="hero-card accent">
+      <div class="label">3-Year ROI</div>
+      <div class="value" id="h-roi">8.3x</div>
+      <div class="sub" id="h-roi-sub">At $50/user/mo list pricing</div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('assumptions')">Assumptions</button>
+    <button class="tab-btn" onclick="switchTab('layer1')">Layer 1: Productivity</button>
+    <button class="tab-btn" onclick="switchTab('layer2')">Layer 2: Strategic</button>
+    <button class="tab-btn" onclick="switchTab('financials')">Financial Impact</button>
+  </div>
+
+  <!-- TAB: Assumptions -->
+  <div class="tab-pane active" id="tab-assumptions">
+    <div class="panel">
+      <div class="panel-title">Strategic &amp; Financial Inputs</div>
+      <div class="panel-subtitle">These drive the Layer 2 strategic initiative calculations</div>
+      <div class="inputs-grid">
+        <div class="input-group">
+          <label>Annual Capital Spend</label>
+          <input type="text" id="in-capex" value="12,900,000,000" oninput="handleInput(this);recalc()">
+          <div class="input-hint">Current assumption: $12.9B/yr</div>
+        </div>
+        <div class="input-group">
+          <label>Competitively Bid Procurement (Annual)</label>
+          <input type="text" id="in-procurement" value="5,000,000,000" oninput="handleInput(this);recalc()">
+          <div class="input-hint">Current assumption: ~$5B/yr</div>
+        </div>
+        <div class="input-group">
+          <label>Rate Case Revenue Requirements</label>
+          <input type="text" id="in-ratecase" value="2,000,000,000" oninput="handleInput(this);recalc()">
+          <div class="input-hint">Current assumption: $2B+</div>
+        </div>
+        <div class="input-group">
+          <label>Data Center Connections per Year</label>
+          <input type="text" id="in-dccount" value="15" oninput="handleInput(this);recalc()">
+          <div class="input-hint">Current assumption: 15+ new DCs/yr</div>
+        </div>
+        <div class="input-group">
+          <label>Avg DC Interconnection Timeline (months)</label>
+          <input type="text" id="in-dctimeline" value="9" oninput="handleInput(this);recalc()">
+          <div class="input-hint">Current assumption: 6-12 months</div>
+        </div>
+        <div class="input-group">
+          <label>Current Contact Center AHT (minutes)</label>
+          <input type="text" id="in-aht" value="8" oninput="handleInput(this);recalc()">
+          <div class="input-hint">Industry benchmark default</div>
+        </div>
+        <div class="input-group">
+          <label>Non-Fuel O&amp;M (Annual)</label>
+          <input type="text" id="in-om" value="4,100,000,000" oninput="handleInput(this);recalc()">
+          <div class="input-hint">Current assumption: $4.1B</div>
+        </div>
+        <div class="input-group">
+          <label>EBITDA</label>
+          <input type="text" id="in-ebitda" value="6,800,000,000" oninput="handleInput(this);recalc()">
+          <div class="input-hint">Current assumption: $6.8B</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">Financial Model Inputs</div>
+      <div class="panel-subtitle">Tax rate, diluted shares, and FTE productive hours</div>
+      <div class="inputs-grid">
+        <div class="input-group">
+          <label>Effective Tax Rate (%)</label>
+          <input type="text" id="in-tax" value="25" oninput="recalc()">
+        </div>
+        <div class="input-group">
+          <label>Diluted Shares Outstanding (M)</label>
+          <input type="text" id="in-shares" value="855" oninput="recalc()">
+        </div>
+        <div class="input-group">
+          <label>FTE Productive Hours / Year</label>
+          <input type="text" id="in-ftehrs" value="1800" oninput="recalc()">
+        </div>
+        <div class="input-group">
+          <label>Steady-State Adoption Rate (%)</label>
+          <input type="text" id="in-adoptoverride" value="" placeholder="Use per-dept defaults" oninput="recalc()">
+          <div class="input-hint">Leave blank to use per-department rates below</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: Layer 1 -->
+  <div class="tab-pane" id="tab-layer1">
+    <div class="panel">
+      <div class="panel-title">Workforce Productivity by Department</div>
+      <div class="panel-subtitle">Edit headcount, time saved, adoption rate, and fully loaded cost for each group</div>
+      <div style="overflow-x:auto">
+        <table class="dept-table">
+          <thead>
+            <tr>
+              <th style="min-width:180px">Department</th>
+              <th>Employees</th>
+              <th>Min Saved / Day</th>
+              <th>Adoption %</th>
+              <th>Loaded Rate ($/hr)</th>
+              <th>Hours Freed / Yr</th>
+              <th>Annual Value</th>
+            </tr>
+          </thead>
+          <tbody id="dept-body"></tbody>
+          <tfoot>
+            <tr>
+              <td>Total</td>
+              <td id="dt-emp"></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td id="dt-hrs"></td>
+              <td id="dt-val"></td>
+            </tr>
+            <tr>
+              <td colspan="5" style="border:none;font-weight:500;color:#6e6e73">FTE-Equivalents Unlocked</td>
+              <td colspan="2" style="border:none" id="dt-fte"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <div class="benchmark" id="bm-block">
+        <div class="bm-title">How conservative is this model?</div>
+        <div class="bm-body" id="bm-text"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: Layer 2 -->
+  <div class="tab-pane" id="tab-layer2">
+    <div class="panel">
+      <div class="panel-title">Strategic Initiative Acceleration</div>
+      <div class="panel-subtitle">Edit the efficiency assumption for each initiative. Values recalculate from your financial inputs.</div>
+      <div style="overflow-x:auto">
+        <table class="l2-table">
+          <thead>
+            <tr>
+              <th style="min-width:180px">Initiative</th>
+              <th>Efficiency Factor</th>
+              <th>Base ($)</th>
+              <th>Annual Value</th>
+            </tr>
+          </thead>
+          <tbody id="l2-body"></tbody>
+          <tfoot>
+            <tr>
+              <td>Total Strategic Value</td>
+              <td></td>
+              <td></td>
+              <td id="l2-total"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: Financial Impact -->
+  <div class="tab-pane" id="tab-financials">
+    <div class="panel">
+      <div class="panel-title">Financial Impact Summary</div>
+      <div class="panel-subtitle">How value flows to Dominion's financial statements</div>
+
+      <div class="fin-grid">
+        <div class="fin-card">
+          <div class="fc-label">Direct EBITDA Contribution</div>
+          <div class="fc-value" id="fc-ebitda"></div>
+          <div class="fc-sub" id="fc-ebitda-sub"></div>
+        </div>
+        <div class="fin-card">
+          <div class="fc-label">After-Tax Earnings Impact</div>
+          <div class="fc-value" id="fc-at"></div>
+          <div class="fc-sub" id="fc-at-sub"></div>
+        </div>
+        <div class="fin-card">
+          <div class="fc-label">EPS Contribution</div>
+          <div class="fc-value" id="fc-eps"></div>
+          <div class="fc-sub" id="fc-eps-sub"></div>
+        </div>
+      </div>
+
+      <div class="roi-banner">
+        <div class="roi-item">
+          <div class="ri-label">3-Year Cumulative Value</div>
+          <div class="ri-value" id="roi-3yr"></div>
+          <div class="ri-sub">Pre-tax economic value</div>
+        </div>
+        <div class="roi-item">
+          <div class="ri-label">3-Year ROI</div>
+          <div class="ri-value" id="roi-multiple"></div>
+          <div class="ri-sub" id="roi-inv-sub">At $50/user/mo list pricing</div>
+        </div>
+        <div class="roi-item">
+          <div class="ri-label">Payback Period</div>
+          <div class="ri-value" id="roi-payback"></div>
+          <div class="ri-sub">From deployment start</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="page-footer">
+  Prepared for Dominion Energy Executive Leadership · March 2026 · Confidential
+</footer>
+
+<script>
+// ── Formatting helpers ──
+function fmt(n){
+  if(Math.abs(n)>=1e9) return '$'+(n/1e9).toFixed(1)+'B';
+  if(Math.abs(n)>=1e6) return '$'+(n/1e6).toFixed(1)+'M';
+  if(Math.abs(n)>=1e3) return '$'+(n/1e3).toFixed(0)+'K';
+  return '$'+n.toFixed(0);
+}
+function fmtInt(n){return Math.round(n).toLocaleString()}
+function parseNum(s){return parseFloat(String(s).replace(/[^0-9.\-]/g,''))||0}
+function handleInput(el){
+  let raw=el.value.replace(/[^0-9.\-]/g,'');
+  let n=parseFloat(raw);
+  if(!isNaN(n)&&raw.indexOf('.')===-1&&n>=1000){
+    let c=el.selectionStart;
+    let oldLen=el.value.length;
+    el.value=Math.round(n).toLocaleString();
+    let newLen=el.value.length;
+    el.setSelectionRange(c+(newLen-oldLen),c+(newLen-oldLen));
+  }
+}
+
+// ── Scenario state ──
+let scenario='mid';
+const scenarioMultipliers={low:0.75,mid:1,high:1.25};
+// Adoption offsets: low = -10pts, mid = 0, high = +10pts
+const adoptionOffset={low:-10,mid:0,high:10};
+
+function setScenario(s){
+  scenario=s;
+  document.querySelectorAll('.scenario-btn').forEach(b=>{
+    b.classList.toggle('active',b.dataset.s===s);
+  });
+  recalc();
+}
+
+// ── Department definitions (mid-case defaults) ──
+const depts=[
+  {id:'kw',  name:'Enterprise Knowledge Workers', emp:7000, minDay:15, adopt:60, rate:80, type:'daily'},
+  {id:'eng', name:'Engineering & Major Projects',  emp:2000, minDay:20, adopt:50, rate:90, type:'daily'},
+  {id:'cs',  name:'Customer Service',              emp:1500, minDay:15, adopt:70, rate:50, type:'daily'},
+  {id:'field',name:'Field & Plant Operations',     emp:4000, minDay:0,  adopt:30, rate:60, type:'field', hrsYr:11},
+  {id:'sc',  name:'Supply Chain & Procurement',    emp:500,  minDay:25, adopt:50, rate:85, type:'daily'},
+  {id:'reg', name:'Regulatory, Legal & Compliance',emp:400,  minDay:0,  adopt:70, rate:120,type:'annual',hrsYr:30},
+  {id:'it',  name:'IT & HR Support (deflection)',  emp:10000,minDay:0,  adopt:0,  rate:60, type:'tickets',tickets:24000},
+];
+
+// ── Layer 2 initiative definitions ──
+const l2Inits=[
+  {id:'capex',  name:'Capital Execution',        factorPct:0.10, baseKey:'capex',   midVal:13e6},
+  {id:'supply', name:'Supply Chain & Procurement',factorPct:0.10, baseKey:'procurement',midVal:8e6},
+  {id:'reg',    name:'Regulatory Outcomes',       factorPct:0.25, baseKey:'ratecase',midVal:7e6},
+  {id:'cx',     name:'Customer Experience',       factorPct:0,    baseKey:null,      midVal:3e6},
+  {id:'safety', name:'Safety & Reliability',      factorPct:0,    baseKey:null,      midVal:3e6},
+  {id:'dc',     name:'Data Center Interconnection',factorPct:0,   baseKey:null,      midVal:11e6},
+];
+
+// ── Build department table rows ──
+function buildDeptTable(){
+  const tbody=document.getElementById('dept-body');
+  tbody.innerHTML='';
+  depts.forEach(d=>{
+    const tr=document.createElement('tr');
+    if(d.type==='daily'){
+      tr.innerHTML=`
+        <td class="dept-name">${d.name}</td>
+        <td><input id="d-${d.id}-emp" value="${fmtInt(d.emp)}" oninput="handleInput(this);recalc()"></td>
+        <td><input id="d-${d.id}-min" value="${d.minDay}" oninput="recalc()"></td>
+        <td><input id="d-${d.id}-adopt" value="${d.adopt}" oninput="recalc()">%</td>
+        <td><input id="d-${d.id}-rate" value="${d.rate}" oninput="recalc()"></td>
+        <td id="d-${d.id}-hrs"></td>
+        <td id="d-${d.id}-val"></td>`;
+    } else if(d.type==='field'){
+      tr.innerHTML=`
+        <td class="dept-name">${d.name}</td>
+        <td><input id="d-${d.id}-emp" value="${fmtInt(d.emp)}" oninput="handleInput(this);recalc()"></td>
+        <td><input id="d-${d.id}-min" value="${d.hrsYr}" oninput="recalc()" style="width:70px"> hrs/yr</td>
+        <td><input id="d-${d.id}-adopt" value="${d.adopt}" oninput="recalc()">%</td>
+        <td><input id="d-${d.id}-rate" value="${d.rate}" oninput="recalc()"></td>
+        <td id="d-${d.id}-hrs"></td>
+        <td id="d-${d.id}-val"></td>`;
+    } else if(d.type==='annual'){
+      tr.innerHTML=`
+        <td class="dept-name">${d.name}</td>
+        <td><input id="d-${d.id}-emp" value="${fmtInt(d.emp)}" oninput="handleInput(this);recalc()"></td>
+        <td><input id="d-${d.id}-min" value="${d.hrsYr}" oninput="recalc()" style="width:70px"> hrs/yr</td>
+        <td><input id="d-${d.id}-adopt" value="${d.adopt}" oninput="recalc()">%</td>
+        <td><input id="d-${d.id}-rate" value="${d.rate}" oninput="recalc()"></td>
+        <td id="d-${d.id}-hrs"></td>
+        <td id="d-${d.id}-val"></td>`;
+    } else if(d.type==='tickets'){
+      tr.innerHTML=`
+        <td class="dept-name">${d.name}</td>
+        <td><input id="d-${d.id}-emp" value="${fmtInt(d.emp)}" oninput="handleInput(this);recalc()"> served</td>
+        <td><input id="d-${d.id}-min" value="${fmtInt(d.tickets)}" oninput="handleInput(this);recalc()" style="width:80px"> tix/yr</td>
+        <td></td>
+        <td><input id="d-${d.id}-rate" value="${d.rate}" oninput="recalc()"></td>
+        <td id="d-${d.id}-hrs"></td>
+        <td id="d-${d.id}-val"></td>`;
+    }
+    tbody.appendChild(tr);
+  });
+}
+
+// ── Build Layer 2 table rows ──
+function buildL2Table(){
+  const tbody=document.getElementById('l2-body');
+  tbody.innerHTML='';
+  l2Inits.forEach(i=>{
+    const tr=document.createElement('tr');
+    const hasBase=i.baseKey!==null;
+    tr.innerHTML=`
+      <td class="dept-name">${i.name}</td>
+      <td>${hasBase?`<input id="l2-${i.id}-pct" value="${i.factorPct}" oninput="recalc()" style="width:70px">%`:'Fixed estimate'}</td>
+      <td id="l2-${i.id}-base">${hasBase?'':'--'}</td>
+      <td id="l2-${i.id}-val"></td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+// ── Main recalculation ──
+function recalc(){
+  const sm=scenarioMultipliers[scenario];
+  const ao=adoptionOffset[scenario];
+  const adoptOverride=parseNum(document.getElementById('in-adoptoverride').value);
+  const fteHrs=parseNum(document.getElementById('in-ftehrs').value)||1800;
+  const taxRate=(parseNum(document.getElementById('in-tax').value)||25)/100;
+  const shares=(parseNum(document.getElementById('in-shares').value)||855)*1e6;
+  const omBase=parseNum(document.getElementById('in-om').value)||4.1e9;
+  const ebitdaBase=parseNum(document.getElementById('in-ebitda').value)||6.8e9;
+
+  // Financial inputs for L2
+  const capex=parseNum(document.getElementById('in-capex').value)||12.9e9;
+  const procurement=parseNum(document.getElementById('in-procurement').value)||5e9;
+  const ratecase=parseNum(document.getElementById('in-ratecase').value)||2e9;
+
+  let totalHrs=0, totalVal=0, totalEmp=0;
+  const workDays=250;
+
+  depts.forEach(d=>{
+    const emp=parseNum(document.getElementById(`d-${d.id}-emp`).value);
+    const rate=parseNum(document.getElementById(`d-${d.id}-rate`).value);
+    let hrs=0, val=0;
+
+    if(d.type==='daily'){
+      let minDay=parseNum(document.getElementById(`d-${d.id}-min`).value)*sm;
+      let adoptPct=adoptOverride>0?adoptOverride:parseNum(document.getElementById(`d-${d.id}-adopt`).value)+ao;
+      adoptPct=Math.max(0,Math.min(100,adoptPct));
+      hrs=emp*(adoptPct/100)*(minDay/60)*workDays;
+      val=hrs*rate;
+    } else if(d.type==='field'){
+      let hrsYr=parseNum(document.getElementById(`d-${d.id}-min`).value)*sm;
+      let adoptPct=adoptOverride>0?adoptOverride:parseNum(document.getElementById(`d-${d.id}-adopt`).value)+ao;
+      adoptPct=Math.max(0,Math.min(100,adoptPct));
+      hrs=emp*(adoptPct/100)*hrsYr;
+      val=hrs*rate;
+    } else if(d.type==='annual'){
+      let hrsYr=parseNum(document.getElementById(`d-${d.id}-min`).value)*sm;
+      let adoptPct=adoptOverride>0?adoptOverride:parseNum(document.getElementById(`d-${d.id}-adopt`).value)+ao;
+      adoptPct=Math.max(0,Math.min(100,adoptPct));
+      hrs=emp*(adoptPct/100)*hrsYr;
+      val=hrs*rate;
+    } else if(d.type==='tickets'){
+      let tickets=parseNum(document.getElementById(`d-${d.id}-min`).value)*sm;
+      hrs=tickets*0.25; // 15 min per deflected ticket
+      val=hrs*rate;
+    }
+
+    document.getElementById(`d-${d.id}-hrs`).textContent=fmtInt(hrs);
+    document.getElementById(`d-${d.id}-val`).textContent=fmt(val);
+    totalHrs+=hrs;totalVal+=val;
+    if(d.type!=='tickets')totalEmp+=emp;else totalEmp+=emp;
+  });
+
+  const fte=totalHrs/fteHrs;
+  document.getElementById('dt-emp').textContent=fmtInt(totalEmp);
+  document.getElementById('dt-hrs').textContent='~'+fmtInt(totalHrs);
+  document.getElementById('dt-val').textContent=fmt(totalVal);
+  document.getElementById('dt-fte').textContent='~'+Math.round(fte);
+
+  // Layer 1 value
+  const l1=totalVal;
+
+  // Benchmark
+  const kwEmp=parseNum(document.getElementById('d-kw-emp').value)||7000;
+  const avgHrsWeekPerKW=totalHrs/(totalEmp||1)/50;
+  document.getElementById('bm-text').innerHTML=
+    `The 2024 Forrester TEI study found active users save an average of <strong>110 hours per year (~2-3 hours per week)</strong>. `+
+    `Users frequently report <strong>3-4+ hours per week</strong> in practice. `+
+    `This model averages <strong>${avgHrsWeekPerKW.toFixed(1)} hours per week</strong> per employee at the current settings, `+
+    `which is ${avgHrsWeekPerKW<2.1?'below':'above'} the Forrester benchmark.`;
+
+  // Layer 2
+  const baseMap={capex,procurement,ratecase};
+  let l2Total=0;
+  l2Inits.forEach(i=>{
+    let val;
+    if(i.baseKey){
+      const base=baseMap[i.baseKey]||0;
+      const pct=parseNum(document.getElementById(`l2-${i.id}-pct`).value)/100;
+      val=base*pct*sm;
+      document.getElementById(`l2-${i.id}-base`).textContent=fmt(base);
+    } else {
+      val=i.midVal*sm;
+    }
+    document.getElementById(`l2-${i.id}-val`).textContent=fmt(val);
+    l2Total+=val;
+  });
+  document.getElementById('l2-total').textContent=fmt(l2Total);
+
+  // Combined
+  const combined=l1+l2Total;
+  const directEbitda=l1+3e6*sm+3e6*sm; // L1 + CX + safety ops
+  const afterTax=combined*(1-taxRate);
+  const eps=afterTax/shares;
+
+  // Hero cards
+  document.getElementById('h-l1').textContent=fmt(l1);
+  document.getElementById('h-l1-sub').textContent='~'+Math.round(fte)+' FTEs of capacity';
+  document.getElementById('h-l2').textContent=fmt(l2Total);
+  document.getElementById('h-total').textContent=fmt(combined);
+  document.getElementById('h-roi').textContent=((combined*2.5)/(totalEmpForInvestment()*50*12*3)).toFixed(1)+'x';
+
+  // Financial cards
+  document.getElementById('fc-ebitda').textContent=fmt(directEbitda);
+  document.getElementById('fc-ebitda-sub').textContent=(directEbitda/omBase*100).toFixed(1)+'% of Non-Fuel O&M';
+  document.getElementById('fc-at').textContent=fmt(afterTax);
+  document.getElementById('fc-at-sub').textContent=(afterTax/ebitdaBase*100).toFixed(1)+'% of EBITDA';
+  document.getElementById('fc-eps').textContent='~$'+eps.toFixed(2);
+  document.getElementById('fc-eps-sub').textContent='Per diluted share';
+
+  // ROI
+  // 3-year ramp: yr1=50%, yr2=75%, yr3=100% of combined
+  const rampMult={low:[0.40,0.65,0.90],mid:[0.50,0.75,1.00],high:[0.60,0.85,1.00]};
+  const ramps=rampMult[scenario];
+  const yr3val=combined*ramps[0]+combined*ramps[1]+combined*ramps[2];
+  const totalUsers=totalEmpForInvestment();
+  const inv3yr=totalUsers*50*12*3;
+  const roiX=yr3val/inv3yr;
+  const annualInv=totalUsers*50*12;
+  const monthsToPayback=annualInv>0?Math.ceil((annualInv/(combined/12))): 12;
+
+  document.getElementById('h-roi').textContent=roiX.toFixed(1)+'x';
+  document.getElementById('roi-3yr').textContent=fmt(yr3val);
+  document.getElementById('roi-multiple').textContent=roiX.toFixed(1)+'x';
+  document.getElementById('roi-inv-sub').textContent=fmtInt(totalUsers)+' users · $50/mo · '+fmt(inv3yr)+' over 3yr';
+  document.getElementById('roi-payback').textContent=monthsToPayback<=3?'< 3 months':monthsToPayback<=6?'< 6 months':monthsToPayback<=12?'< 12 months':monthsToPayback+' months';
+}
+
+function totalEmpForInvestment(){
+  // Total unique employees for pricing (not double-counting IT served)
+  let t=0;
+  depts.forEach(d=>{
+    if(d.id!=='it') t+=parseNum(document.getElementById(`d-${d.id}-emp`).value);
+  });
+  return t||15200;
+}
+
+// ── Tabs ──
+function switchTab(id){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.querySelector(`.tab-btn[onclick="switchTab('${id}')"]`).classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+}
+
+// ── Init ──
+buildDeptTable();
+buildL2Table();
+recalc();
+</script>
+</body>
+</html>
